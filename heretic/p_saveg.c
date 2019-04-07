@@ -24,6 +24,7 @@
 #include "m_misc.h"
 #include "p_local.h"
 #include "v_video.h"
+#include "deh_str.h"
 
 static FILE *SaveGameFP;
 
@@ -1909,4 +1910,21 @@ void P_UnArchiveSpecials(void)
 
 }
 
+char *P_SaveGameFile(int slot)
+{
+    static char *filename = NULL;
+    static size_t filename_size = 0;
+    char basename[32];
+
+    if (filename == NULL)
+    {
+        filename_size = strlen(savegamedir) + 32;
+        filename = Sys_Malloc(filename_size);
+    }
+
+    DEH_snprintf(basename, 32, SAVEGAMENAME "%d.dsg", slot);
+    M_snprintf(filename, filename_size, "%s%s", savegamedir, basename);
+
+    return filename;
+}
 

@@ -77,7 +77,7 @@ static void DEH_WeaponParseLine(deh_context_t *context, char *line, void *tag)
         return;
 
     weapon = (weaponinfo_t *) tag;
-
+#ifdef ORIGCODE
     if (!DEH_ParseAssignment(line, &variable_name, &value))
     {
         // Failed to parse
@@ -85,7 +85,9 @@ static void DEH_WeaponParseLine(deh_context_t *context, char *line, void *tag)
         DEH_Warning(context, "Failed to parse assignment");
         return;
     }
-
+#else
+    return;
+#endif
     ivalue = atoi(value);
 
     // If this is a frame field, we need to map from Heretic 1.0 frame
@@ -101,6 +103,7 @@ static void DEH_WeaponParseLine(deh_context_t *context, char *line, void *tag)
 
 static void DEH_WeaponSHA1Sum(sha1_context_t *context)
 {
+#ifdef ORIGCODE
     int i;
 
     for (i=0; i<NUMWEAPONS ;++i)
@@ -108,6 +111,7 @@ static void DEH_WeaponSHA1Sum(sha1_context_t *context)
         DEH_StructSHA1Sum(context, &weapon_mapping, &wpnlev1info[i]);
         DEH_StructSHA1Sum(context, &weapon_mapping, &wpnlev2info[i]);
     }
+#endif
 }
 
 deh_section_t deh_section_weapon =

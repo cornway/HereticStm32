@@ -24,12 +24,12 @@
 #include "doomkeys.h"
 
 #include "deh_str.h"
-#include "i_input.h"
 #include "m_controls.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "s_sound.h"
 #include "v_video.h"
+#include "input_main.h"
 
 #define QUEUESIZE		128
 #define MESSAGESIZE	128
@@ -116,7 +116,9 @@ void CT_Init(void)
 void CT_Stop(void)
 {
     chatmodeon = false;
+#ifdef ORIGCODE
     I_StopTextInput();
+#endif
     return;
 }
 
@@ -193,7 +195,9 @@ boolean CT_Responder(event_t * ev)
         }
         CT_queueChatChar(sendto);
         chatmodeon = true;
+#ifdef ORIGCODE
         I_StartTextInput(25, 10, SCREENWIDTH, 18);
+#endif
         return true;
     }
     else

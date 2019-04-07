@@ -22,7 +22,6 @@
 #include "doomdef.h"
 #include "doomkeys.h"
 #include "deh_str.h"
-#include "i_input.h"
 #include "i_timer.h"
 #include "i_system.h"
 #include "m_argv.h"
@@ -895,7 +894,7 @@ boolean G_Responder(event_t * ev)
                 gamekeydown[ev->data1] = false;
             }
             return (false);     // always let key up events filter down
-
+#ifdef ORIGCODE
         case ev_mouse:
             SetMouseButtons(ev->data1);
             mousex = ev->data2 * (mouseSensitivity + 5) / 10;
@@ -909,7 +908,7 @@ boolean G_Responder(event_t * ev)
             joystrafemove = ev->data4;
             joylook = ev->data5;
             return (true);      // eat events
-
+#endif
         default:
             break;
     }
@@ -1467,7 +1466,7 @@ static char *savename = NULL;
 
 void G_LoadGame(char *name)
 {
-    savename = M_StringDuplicate(name);
+    savename = strdup(name);
     gameaction = ga_loadgame;
 }
 
@@ -1792,10 +1791,12 @@ void G_RecordDemo(skill_t skill, int numplayers, int episode, int map,
     //
     // Record or playback a demo with high resolution turning.
     //
-
+#ifdef ORIGCODE
     longtics = D_NonVanillaRecord(M_ParmExists("-longtics"),
                                   "vvHeretic longtics demo");
-
+#else
+    longtics = false;
+#endif
     // If not recording a longtics demo, record in low res
 
     lowres_turn = !longtics;
@@ -1840,6 +1841,7 @@ void G_RecordDemo(skill_t skill, int numplayers, int episode, int map,
     //   0x02 = -nomonsters
 
     *demo_p = 1; // assume player one exists
+#ifdef ORIGCODE
     if (D_NonVanillaRecord(respawnparm, "vvHeretic -respawn header flag"))
     {
         *demo_p |= DEMOHEADER_RESPAWN;
@@ -1852,6 +1854,7 @@ void G_RecordDemo(skill_t skill, int numplayers, int episode, int map,
     {
         *demo_p |= DEMOHEADER_NOMONSTERS;
     }
+#endif
     demo_p++;
 
     for (i = 1; i < MAXPLAYERS; i++)
@@ -1883,7 +1886,7 @@ void G_DoPlayDemo(void)
     int i, lumpnum, episode, map;
 
     gameaction = ga_nothing;
-    lumpnum = W_GetNumForName(defdemoname);
+    lumpnum = W_GetNumForName((char *)defdemoname);
     demobuffer = W_CacheLumpNum(lumpnum, PU_STATIC);
     demo_p = demobuffer;
     skill = *demo_p++;
@@ -1892,6 +1895,7 @@ void G_DoPlayDemo(void)
 
     // vvHeretic allows extra options to be stored in the upper bits of
     // the player 1 present byte. However, this is a non-vanilla extension.
+#ifdef ORIGCODE
     if (D_NonVanillaPlayback((*demo_p & DEMOHEADER_LONGTICS) != 0,
                              lumpnum, "vvHeretic longtics demo"))
     {
@@ -1907,7 +1911,7 @@ void G_DoPlayDemo(void)
     {
         nomonsters = true;
     }
-
+#endif
     for (i = 0; i < MAXPLAYERS; i++)
         playeringame[i] = (*demo_p++) != 0;
 
@@ -1988,7 +1992,7 @@ boolean G_CheckDemoStatus(void)
         if (singledemo)
             I_Quit();
 
-        W_ReleaseLumpName(defdemoname);
+        W_ReleaseLumpName((char *)defdemoname);
         demoplayback = false;
         D_AdvanceDemo();
         return true;

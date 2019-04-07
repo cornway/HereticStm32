@@ -1,5 +1,4 @@
 //
-// Copyright(C) 1993-1996 Id Software, Inc.
 // Copyright(C) 2005-2014 Simon Howard
 //
 // This program is free software; you can redistribute it and/or
@@ -12,24 +11,31 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// DESCRIPTION:
-//	Put all global tate variables here.
+//
+// Text mode emulation in SDL
 //
 
-#include <stdio.h>
+#ifndef TXT_IO_H
+#define TXT_IO_H
 
-#include "doomstat.h"
+#include "txt_main.h"
 
+typedef struct
+{
+    int bgcolor;
+    int fgcolor;
+} txt_saved_colors_t;
 
-// Game Mode - identify IWAD as shareware, retail etc.
-extern GameMode_t gamemode;
-GameMission_t	gamemission = doom;
-GameVersion_t   gameversion = hexen;
-char *gamedescription = "unknown";
+void TXT_PutSymbol(int c);
+void TXT_PutChar(int c);
+void TXT_Puts(const char *s);
+void TXT_GotoXY(int x, int y);
+void TXT_GetXY(int *x, int *y);
+void TXT_FGColor(txt_color_t color);
+void TXT_BGColor(int color, int blinking);
+void TXT_SaveColors(txt_saved_colors_t *save);
+void TXT_RestoreColors(txt_saved_colors_t *save);
+void TXT_ClearScreen(void);
 
-// Set if homebrew PWAD stuff has been added.
-boolean	modifiedgame;
-
-
-
+#endif /* #ifndef TXT_IO_H */
 

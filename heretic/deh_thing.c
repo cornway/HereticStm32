@@ -95,7 +95,7 @@ static void DEH_ThingParseLine(deh_context_t *context, char *line, void *tag)
     mobj = (mobjinfo_t *) tag;
 
     // Parse the assignment
-
+#ifdef ORIGCODE
     if (!DEH_ParseAssignment(line, &variable_name, &value))
     {
         // Failed to parse
@@ -103,7 +103,9 @@ static void DEH_ThingParseLine(deh_context_t *context, char *line, void *tag)
         DEH_Warning(context, "Failed to parse assignment");
         return;
     }
-
+#else
+    return;
+#endif
     // all values are integers
 
     ivalue = atoi(value);
@@ -124,12 +126,14 @@ static void DEH_ThingParseLine(deh_context_t *context, char *line, void *tag)
 
 static void DEH_ThingSHA1Sum(sha1_context_t *context)
 {
+#ifdef ORIGCODE
     int i;
 
     for (i=0; i<NUMMOBJTYPES; ++i)
     {
         DEH_StructSHA1Sum(context, &thing_mapping, &mobjinfo[i]);
     }
+#endif
 }
 
 deh_section_t deh_section_thing =

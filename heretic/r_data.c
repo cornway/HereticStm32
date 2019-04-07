@@ -24,6 +24,7 @@
 #include "m_misc.h"
 #include "r_local.h"
 #include "p_local.h"
+#include "arch.h"
 
 extern void CheckAbortStartup(void);
 
@@ -114,7 +115,7 @@ void R_DrawColumnInCache(column_t * patch, byte * cache, int originy,
         if (position + count > cacheheight)
             count = cacheheight - position;
         if (count > 0)
-            memcpy(cache + position, source, count);
+            H_memcpy(cache + position, source, count);
 
         patch = (column_t *) ((byte *) patch + patch->length + 4);
     }
@@ -318,7 +319,7 @@ void R_InitTextures(void)
 //
 // load the patch names from pnames.lmp
 //
-    names = W_CacheLumpName(pnames, PU_STATIC);
+    names = W_CacheLumpName((char *)pnames, PU_STATIC);
     nummappatches = LONG(*((int *) names));
     name_p = names + 4;
     patchlookup = Z_Malloc(nummappatches * sizeof(*patchlookup), PU_STATIC, NULL);
@@ -327,21 +328,21 @@ void R_InitTextures(void)
         M_StringCopy(name, name_p + i * 8, sizeof(name));
         patchlookup[i] = W_CheckNumForName(name);
     }
-    W_ReleaseLumpName(pnames);
+    W_ReleaseLumpName((char *)pnames);
 
 //
 // load the map texture definitions from textures.lmp
 //
-    maptex = maptex1 = W_CacheLumpName(texture1, PU_STATIC);
+    maptex = maptex1 = W_CacheLumpName((char *)texture1, PU_STATIC);
     numtextures1 = LONG(*maptex);
-    maxoff = W_LumpLength(W_GetNumForName(texture1));
+    maxoff = W_LumpLength(W_GetNumForName((char *)texture1));
     directory = maptex + 1;
 
-    if (W_CheckNumForName(texture2) != -1)
+    if (W_CheckNumForName((char *)texture2) != -1)
     {
-        maptex2 = W_CacheLumpName(texture2, PU_STATIC);
+        maptex2 = W_CacheLumpName((char *)texture2, PU_STATIC);
         numtextures2 = LONG(*maptex2);
-        maxoff2 = W_LumpLength(W_GetNumForName(texture2));
+        maxoff2 = W_LumpLength(W_GetNumForName((char *)texture2));
     }
     else
     {
@@ -379,6 +380,8 @@ void R_InitTextures(void)
         if (!(i & 63))
             printf(".");
 #else
+        if (!(i & 63))
+            dprintf(".");
         IncThermo();
 #endif
         if (i == numtextures1)
@@ -400,7 +403,7 @@ void R_InitTextures(void)
         texture->width = SHORT(mtexture->width);
         texture->height = SHORT(mtexture->height);
         texture->patchcount = SHORT(mtexture->patchcount);
-        memcpy(texture->name, mtexture->name, sizeof(texture->name));
+        H_memcpy(texture->name, mtexture->name, sizeof(texture->name));
         mpatch = &mtexture->patches[0];
         patch = &texture->patches[0];
         for (j = 0; j < texture->patchcount; j++, mpatch++, patch++)
@@ -427,10 +430,10 @@ void R_InitTextures(void)
 
     Z_Free(patchlookup);
 
-    W_ReleaseLumpName(texture1);
+    W_ReleaseLumpName((char *)texture1);
     if (maptex2)
     {
-        W_ReleaseLumpName(texture2);
+        W_ReleaseLumpName((char *)texture2);
     }
 
 //
@@ -576,7 +579,7 @@ int R_FlatNumForName(const char *name)
     int i;
     char namet[9];
 
-    i = W_CheckNumForName(name);
+    i = W_CheckNumForName((char *)name);
     if (i == -1)
     {
         namet[8] = 0;
@@ -671,7 +674,7 @@ void R_PrecacheLevel(void)
         if (flatpresent[i])
         {
             lump = firstflat + i;
-            flatmemory += lumpinfo[lump]->size;
+            flatmemory += lumpinfo[lump].size;
             W_CacheLumpNum(lump, PU_CACHE);
         }
 
@@ -701,7 +704,7 @@ void R_PrecacheLevel(void)
         for (j = 0; j < texture->patchcount; j++)
         {
             lump = texture->patches[j].patch;
-            texturememory += lumpinfo[lump]->size;
+            texturememory += lumpinfo[lump].size;
             W_CacheLumpNum(lump, PU_CACHE);
         }
     }
@@ -731,7 +734,7 @@ void R_PrecacheLevel(void)
             for (k = 0; k < 8; k++)
             {
                 lump = firstspritelump + sf->lump[k];
-                spritememory += lumpinfo[lump]->size;
+                spritememory += lumpinfo[lump].size;
                 W_CacheLumpNum(lump, PU_CACHE);
             }
         }

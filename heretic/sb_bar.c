@@ -714,7 +714,7 @@ void SB_PaletteFlash(void)
     {
         sb_palette = palette;
         pal = (byte *) W_CacheLumpNum(playpalette, PU_CACHE) + palette * 768;
-        I_SetPalette(pal);
+        I_SetPalette(pal, 0);
     }
 }
 
@@ -900,7 +900,7 @@ void DrawInventoryBar(void)
         {
             patch = DEH_String(patcharti[CPlayer->inventory[x + i].type]);
 
-            V_DrawPatch(50 + i * 31, 160, W_CacheLumpName(patch, PU_CACHE));
+            V_DrawPatch(50 + i * 31, 160, W_CacheLumpName((char *)patch, PU_CACHE));
             DrSmallNumber(CPlayer->inventory[x + i].count, 69 + i * 31, 182);
         }
     }
@@ -951,7 +951,7 @@ void DrawFullScreenStuff(void)
         {
             patch = DEH_String(patcharti[CPlayer->readyArtifact]);
             V_DrawTLPatch(286, 170, W_CacheLumpName(DEH_String("ARTIBOX"), PU_CACHE));
-            V_DrawPatch(286, 170, W_CacheLumpName(patch, PU_CACHE));
+            V_DrawPatch(286, 170, W_CacheLumpName((char *)patch, PU_CACHE));
             DrSmallNumber(CPlayer->inventory[inv_ptr].count, 307, 192);
         }
     }
@@ -967,7 +967,7 @@ void DrawFullScreenStuff(void)
             {
                 patch = DEH_String(patcharti[CPlayer->inventory[x + i].type]);
                 V_DrawPatch(50 + i * 31, 168,
-                            W_CacheLumpName(patch, PU_CACHE));
+                            W_CacheLumpName((char *)patch, PU_CACHE));
                 DrSmallNumber(CPlayer->inventory[x + i].count, 69 + i * 31,
                               190);
             }

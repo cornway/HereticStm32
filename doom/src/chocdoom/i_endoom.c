@@ -47,9 +47,9 @@ void I_Endoom(byte *endoom_data)
     I_InitWindowIcon();
 
     // Write the data to the screen memory
-
+#ifdef ORIGCODE
     screendata = TXT_GetScreenData();
-
+#endif
     indent = (ENDOOM_W - TXT_SCREEN_W) / 2;
 
     for (y=0; y<TXT_SCREEN_H; ++y)

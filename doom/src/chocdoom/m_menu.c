@@ -60,13 +60,19 @@
 #include "d_iwad.h"
 #include "p_saveg.h"
 
+boolean game_saved_in_ram = false;
+boolean p_saveg_use_ram = false;
+char saveg_level_name[80 + 1];
+
+int musicVolume = 4;
+int sfxVolume = 8;
 
 extern patch_t*		hu_font[HU_FONTSIZE];
 extern boolean		message_dontfuckwithme;
 
 extern boolean		chat_on;		// in heads-up code
 
-extern int8_t p_saveg_use_ram;
+extern boolean p_saveg_use_ram;
 
 
 static uint16_t level_selected = 1;

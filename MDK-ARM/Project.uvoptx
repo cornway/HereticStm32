@@ -146,52 +146,34 @@
           <Name>-U066CFF524853837267094211 -O10446 -SF4000 -C0 -A0 -I0 -HNlocalhost -HP7184 -P2 -N00("ARM CoreSight SW-DP") -D00(5BA02477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN2 -FF0STM32F7x_2048.FLM -FS08000000 -FL0200000 -FP0($$Device:STM32F769NIHx$CMSIS\Flash\STM32F7x_2048.FLM) -FF1STM32F7xTCM_2048.FLM -FS1200000 -FL1200000 -FP1($$Device:STM32F769NIHx$CMSIS\Flash\STM32F7xTCM_2048.FLM)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>81</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134304216</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>../Src/stm32f7xx_it.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\../Src/stm32f7xx_it.c\81</Expression>
+        </Bp>
+      </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>adv7533_config</ItemText>
+          <ItemText>iwadfile</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>dest_screen</ItemText>
-        </Ww>
-        <Ww>
-          <count>2</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>scrptr</ItemText>
-        </Ww>
-        <Ww>
-          <count>3</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>bsp_lcd_laysize</ItemText>
-        </Ww>
-        <Ww>
-          <count>4</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>bsp_lcd_height</ItemText>
-        </Ww>
-        <Ww>
-          <count>5</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>bsp_lcd_width</ItemText>
-        </Ww>
-        <Ww>
-          <count>6</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>lcd_y_size</ItemText>
-        </Ww>
-        <Ww>
-          <count>7</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>HDMI_Format</ItemText>
-        </Ww>
-        <Ww>
-          <count>8</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>HDMI_DSIPacket</ItemText>
+          <ItemText>playerstarts</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -1349,7 +1331,7 @@
   </Group>
 
   <Group>
-    <GroupName>hexen</GroupName>
+    <GroupName>doom</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -1361,8 +1343,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\a_action.c</PathWithFileName>
-      <FilenameWithoutPath>a_action.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\i_joystick.c</PathWithFileName>
+      <FilenameWithoutPath>i_joystick.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1373,8 +1355,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\am_map.c</PathWithFileName>
-      <FilenameWithoutPath>am_map.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\i_main.c</PathWithFileName>
+      <FilenameWithoutPath>i_main.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1385,8 +1367,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\ct_chat.c</PathWithFileName>
-      <FilenameWithoutPath>ct_chat.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\i_scale.c</PathWithFileName>
+      <FilenameWithoutPath>i_scale.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1397,8 +1379,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\d_net.c</PathWithFileName>
-      <FilenameWithoutPath>d_net.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\i_sound.c</PathWithFileName>
+      <FilenameWithoutPath>i_sound.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1409,8 +1391,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\f_finale.c</PathWithFileName>
-      <FilenameWithoutPath>f_finale.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\i_system.c</PathWithFileName>
+      <FilenameWithoutPath>i_system.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1421,8 +1403,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\g_game.c</PathWithFileName>
-      <FilenameWithoutPath>g_game.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\i_timer.c</PathWithFileName>
+      <FilenameWithoutPath>i_timer.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1433,8 +1415,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\h2_main.c</PathWithFileName>
-      <FilenameWithoutPath>h2_main.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\i_video.c</PathWithFileName>
+      <FilenameWithoutPath>i_video.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1445,8 +1427,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\in_lude.c</PathWithFileName>
-      <FilenameWithoutPath>in_lude.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\i_videohr.c</PathWithFileName>
+      <FilenameWithoutPath>i_videohr.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1457,8 +1439,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\info.c</PathWithFileName>
-      <FilenameWithoutPath>info.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\m_controls.c</PathWithFileName>
+      <FilenameWithoutPath>m_controls.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1469,8 +1451,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\m_random.c</PathWithFileName>
-      <FilenameWithoutPath>m_random.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\w_file.c</PathWithFileName>
+      <FilenameWithoutPath>w_file.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1481,8 +1463,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\mn_menu.c</PathWithFileName>
-      <FilenameWithoutPath>mn_menu.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\w_file_stdc.c</PathWithFileName>
+      <FilenameWithoutPath>w_file_stdc.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1493,8 +1475,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_acs.c</PathWithFileName>
-      <FilenameWithoutPath>p_acs.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\w_main.c</PathWithFileName>
+      <FilenameWithoutPath>w_main.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1505,8 +1487,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_anim.c</PathWithFileName>
-      <FilenameWithoutPath>p_anim.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\w_merge.c</PathWithFileName>
+      <FilenameWithoutPath>w_merge.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1517,8 +1499,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_ceilng.c</PathWithFileName>
-      <FilenameWithoutPath>p_ceilng.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\w_wad.c</PathWithFileName>
+      <FilenameWithoutPath>w_wad.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1529,8 +1511,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_doors.c</PathWithFileName>
-      <FilenameWithoutPath>p_doors.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\v_video.c</PathWithFileName>
+      <FilenameWithoutPath>v_video.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1541,8 +1523,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_enemy.c</PathWithFileName>
-      <FilenameWithoutPath>p_enemy.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\z_zone.c</PathWithFileName>
+      <FilenameWithoutPath>z_zone.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1553,8 +1535,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_floor.c</PathWithFileName>
-      <FilenameWithoutPath>p_floor.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\m_menu.c</PathWithFileName>
+      <FilenameWithoutPath>m_menu.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1565,8 +1547,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_inter.c</PathWithFileName>
-      <FilenameWithoutPath>p_inter.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\m_misc.c</PathWithFileName>
+      <FilenameWithoutPath>m_misc.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1577,8 +1559,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_lights.c</PathWithFileName>
-      <FilenameWithoutPath>p_lights.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\m_fixed.c</PathWithFileName>
+      <FilenameWithoutPath>m_fixed.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1589,8 +1571,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_map.c</PathWithFileName>
-      <FilenameWithoutPath>p_map.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\m_config.c</PathWithFileName>
+      <FilenameWithoutPath>m_config.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1601,8 +1583,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_maputl.c</PathWithFileName>
-      <FilenameWithoutPath>p_maputl.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\i_cdmus.c</PathWithFileName>
+      <FilenameWithoutPath>i_cdmus.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1613,8 +1595,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_mobj.c</PathWithFileName>
-      <FilenameWithoutPath>p_mobj.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\tables.c</PathWithFileName>
+      <FilenameWithoutPath>tables.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1625,8 +1607,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_plats.c</PathWithFileName>
-      <FilenameWithoutPath>p_plats.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\d_loop.c</PathWithFileName>
+      <FilenameWithoutPath>d_loop.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1637,8 +1619,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_pspr.c</PathWithFileName>
-      <FilenameWithoutPath>p_pspr.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\d_iwad.c</PathWithFileName>
+      <FilenameWithoutPath>d_iwad.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1649,8 +1631,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_setup.c</PathWithFileName>
-      <FilenameWithoutPath>p_setup.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\doomstat.c</PathWithFileName>
+      <FilenameWithoutPath>doomstat.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1661,8 +1643,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_sight.c</PathWithFileName>
-      <FilenameWithoutPath>p_sight.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\d_event.c</PathWithFileName>
+      <FilenameWithoutPath>d_event.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1673,8 +1655,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_spec.c</PathWithFileName>
-      <FilenameWithoutPath>p_spec.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\d_mode.c</PathWithFileName>
+      <FilenameWithoutPath>d_mode.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1685,8 +1667,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_switch.c</PathWithFileName>
-      <FilenameWithoutPath>p_switch.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\w_checksum.c</PathWithFileName>
+      <FilenameWithoutPath>w_checksum.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1697,8 +1679,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_telept.c</PathWithFileName>
-      <FilenameWithoutPath>p_telept.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\sha1.c</PathWithFileName>
+      <FilenameWithoutPath>sha1.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1709,8 +1691,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_things.c</PathWithFileName>
-      <FilenameWithoutPath>p_things.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\m_bbox.c</PathWithFileName>
+      <FilenameWithoutPath>m_bbox.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1721,8 +1703,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_tick.c</PathWithFileName>
-      <FilenameWithoutPath>p_tick.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\m_argv.c</PathWithFileName>
+      <FilenameWithoutPath>m_argv.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1733,8 +1715,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\p_user.c</PathWithFileName>
-      <FilenameWithoutPath>p_user.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\m_cheat.c</PathWithFileName>
+      <FilenameWithoutPath>m_cheat.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1745,8 +1727,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\po_man.c</PathWithFileName>
-      <FilenameWithoutPath>po_man.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\dummy.c</PathWithFileName>
+      <FilenameWithoutPath>dummy.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1757,8 +1739,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\r_bsp.c</PathWithFileName>
-      <FilenameWithoutPath>r_bsp.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\hu_stuff.c</PathWithFileName>
+      <FilenameWithoutPath>hu_stuff.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1769,8 +1751,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\r_data.c</PathWithFileName>
-      <FilenameWithoutPath>r_data.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\hu_lib.c</PathWithFileName>
+      <FilenameWithoutPath>hu_lib.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1781,151 +1763,151 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\r_draw.c</PathWithFileName>
-      <FilenameWithoutPath>r_draw.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>121</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\r_main.c</PathWithFileName>
-      <FilenameWithoutPath>r_main.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>122</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\r_plane.c</PathWithFileName>
-      <FilenameWithoutPath>r_plane.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>123</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\r_segs.c</PathWithFileName>
-      <FilenameWithoutPath>r_segs.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>124</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\r_things.c</PathWithFileName>
-      <FilenameWithoutPath>r_things.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>125</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\s_sound.c</PathWithFileName>
-      <FilenameWithoutPath>s_sound.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>126</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\sb_bar.c</PathWithFileName>
-      <FilenameWithoutPath>sb_bar.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>127</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\sc_man.c</PathWithFileName>
-      <FilenameWithoutPath>sc_man.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>128</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\sn_sonix.c</PathWithFileName>
-      <FilenameWithoutPath>sn_sonix.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>129</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\sounds.c</PathWithFileName>
-      <FilenameWithoutPath>sounds.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>130</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\st_start.c</PathWithFileName>
-      <FilenameWithoutPath>st_start.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>11</GroupNumber>
-      <FileNumber>131</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\hexen\sv_save.c</PathWithFileName>
-      <FilenameWithoutPath>sv_save.c</FilenameWithoutPath>
+      <PathWithFileName>..\doom\src\chocdoom\dstrings.c</PathWithFileName>
+      <FilenameWithoutPath>dstrings.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
   </Group>
 
   <Group>
-    <GroupName>doom</GroupName>
+    <GroupName>heretic</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>121</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\heretic\am_map.c</PathWithFileName>
+      <FilenameWithoutPath>am_map.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>122</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\heretic\ct_chat.c</PathWithFileName>
+      <FilenameWithoutPath>ct_chat.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>123</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\heretic\d_main.c</PathWithFileName>
+      <FilenameWithoutPath>d_main.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>124</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\heretic\d_net.c</PathWithFileName>
+      <FilenameWithoutPath>d_net.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>125</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\heretic\deh_ammo.c</PathWithFileName>
+      <FilenameWithoutPath>deh_ammo.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>126</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\heretic\deh_frame.c</PathWithFileName>
+      <FilenameWithoutPath>deh_frame.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>127</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\heretic\deh_htext.c</PathWithFileName>
+      <FilenameWithoutPath>deh_htext.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>128</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\heretic\deh_htic.c</PathWithFileName>
+      <FilenameWithoutPath>deh_htic.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>129</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\heretic\deh_sound.c</PathWithFileName>
+      <FilenameWithoutPath>deh_sound.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>130</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\heretic\deh_thing.c</PathWithFileName>
+      <FilenameWithoutPath>deh_thing.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>131</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\heretic\deh_weapon.c</PathWithFileName>
+      <FilenameWithoutPath>deh_weapon.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
     <File>
       <GroupNumber>12</GroupNumber>
       <FileNumber>132</FileNumber>
@@ -1933,8 +1915,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\i_joystick.c</PathWithFileName>
-      <FilenameWithoutPath>i_joystick.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\f_finale.c</PathWithFileName>
+      <FilenameWithoutPath>f_finale.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1945,8 +1927,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\i_main.c</PathWithFileName>
-      <FilenameWithoutPath>i_main.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\g_game.c</PathWithFileName>
+      <FilenameWithoutPath>g_game.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1957,8 +1939,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\i_scale.c</PathWithFileName>
-      <FilenameWithoutPath>i_scale.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\in_lude.c</PathWithFileName>
+      <FilenameWithoutPath>in_lude.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1969,8 +1951,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\i_sound.c</PathWithFileName>
-      <FilenameWithoutPath>i_sound.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\info.c</PathWithFileName>
+      <FilenameWithoutPath>info.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1981,8 +1963,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\i_system.c</PathWithFileName>
-      <FilenameWithoutPath>i_system.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\m_random.c</PathWithFileName>
+      <FilenameWithoutPath>m_random.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1993,8 +1975,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\i_timer.c</PathWithFileName>
-      <FilenameWithoutPath>i_timer.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\mn_menu.c</PathWithFileName>
+      <FilenameWithoutPath>mn_menu.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2005,8 +1987,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\i_video.c</PathWithFileName>
-      <FilenameWithoutPath>i_video.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_ceilng.c</PathWithFileName>
+      <FilenameWithoutPath>p_ceilng.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2017,8 +1999,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\i_videohr.c</PathWithFileName>
-      <FilenameWithoutPath>i_videohr.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_doors.c</PathWithFileName>
+      <FilenameWithoutPath>p_doors.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2029,8 +2011,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\m_controls.c</PathWithFileName>
-      <FilenameWithoutPath>m_controls.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_enemy.c</PathWithFileName>
+      <FilenameWithoutPath>p_enemy.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2041,8 +2023,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\w_file.c</PathWithFileName>
-      <FilenameWithoutPath>w_file.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_floor.c</PathWithFileName>
+      <FilenameWithoutPath>p_floor.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2053,8 +2035,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\w_file_stdc.c</PathWithFileName>
-      <FilenameWithoutPath>w_file_stdc.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_inter.c</PathWithFileName>
+      <FilenameWithoutPath>p_inter.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2065,8 +2047,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\w_main.c</PathWithFileName>
-      <FilenameWithoutPath>w_main.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_lights.c</PathWithFileName>
+      <FilenameWithoutPath>p_lights.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2077,8 +2059,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\w_merge.c</PathWithFileName>
-      <FilenameWithoutPath>w_merge.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_map.c</PathWithFileName>
+      <FilenameWithoutPath>p_map.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2089,8 +2071,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\w_wad.c</PathWithFileName>
-      <FilenameWithoutPath>w_wad.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_maputl.c</PathWithFileName>
+      <FilenameWithoutPath>p_maputl.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2101,8 +2083,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\v_video.c</PathWithFileName>
-      <FilenameWithoutPath>v_video.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_mobj.c</PathWithFileName>
+      <FilenameWithoutPath>p_mobj.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2113,8 +2095,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\z_zone.c</PathWithFileName>
-      <FilenameWithoutPath>z_zone.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_plats.c</PathWithFileName>
+      <FilenameWithoutPath>p_plats.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2125,8 +2107,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\m_menu.c</PathWithFileName>
-      <FilenameWithoutPath>m_menu.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_pspr.c</PathWithFileName>
+      <FilenameWithoutPath>p_pspr.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2137,8 +2119,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\m_misc.c</PathWithFileName>
-      <FilenameWithoutPath>m_misc.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_saveg.c</PathWithFileName>
+      <FilenameWithoutPath>p_saveg.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2149,8 +2131,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\m_fixed.c</PathWithFileName>
-      <FilenameWithoutPath>m_fixed.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_setup.c</PathWithFileName>
+      <FilenameWithoutPath>p_setup.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2161,8 +2143,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\m_config.c</PathWithFileName>
-      <FilenameWithoutPath>m_config.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_sight.c</PathWithFileName>
+      <FilenameWithoutPath>p_sight.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2173,8 +2155,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\i_cdmus.c</PathWithFileName>
-      <FilenameWithoutPath>i_cdmus.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_spec.c</PathWithFileName>
+      <FilenameWithoutPath>p_spec.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2185,8 +2167,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\tables.c</PathWithFileName>
-      <FilenameWithoutPath>tables.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_switch.c</PathWithFileName>
+      <FilenameWithoutPath>p_switch.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2197,8 +2179,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\d_loop.c</PathWithFileName>
-      <FilenameWithoutPath>d_loop.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_telept.c</PathWithFileName>
+      <FilenameWithoutPath>p_telept.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2209,8 +2191,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\d_iwad.c</PathWithFileName>
-      <FilenameWithoutPath>d_iwad.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_tick.c</PathWithFileName>
+      <FilenameWithoutPath>p_tick.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2221,8 +2203,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\doomstat.c</PathWithFileName>
-      <FilenameWithoutPath>doomstat.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\p_user.c</PathWithFileName>
+      <FilenameWithoutPath>p_user.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2233,8 +2215,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\d_event.c</PathWithFileName>
-      <FilenameWithoutPath>d_event.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\r_bsp.c</PathWithFileName>
+      <FilenameWithoutPath>r_bsp.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2245,8 +2227,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\d_mode.c</PathWithFileName>
-      <FilenameWithoutPath>d_mode.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\r_data.c</PathWithFileName>
+      <FilenameWithoutPath>r_data.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2257,8 +2239,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\w_checksum.c</PathWithFileName>
-      <FilenameWithoutPath>w_checksum.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\r_draw.c</PathWithFileName>
+      <FilenameWithoutPath>r_draw.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2269,8 +2251,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\sha1.c</PathWithFileName>
-      <FilenameWithoutPath>sha1.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\r_main.c</PathWithFileName>
+      <FilenameWithoutPath>r_main.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2281,8 +2263,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\m_bbox.c</PathWithFileName>
-      <FilenameWithoutPath>m_bbox.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\r_plane.c</PathWithFileName>
+      <FilenameWithoutPath>r_plane.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2293,8 +2275,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\m_argv.c</PathWithFileName>
-      <FilenameWithoutPath>m_argv.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\r_segs.c</PathWithFileName>
+      <FilenameWithoutPath>r_segs.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2305,8 +2287,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\m_cheat.c</PathWithFileName>
-      <FilenameWithoutPath>m_cheat.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\r_things.c</PathWithFileName>
+      <FilenameWithoutPath>r_things.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2317,8 +2299,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\dummy.c</PathWithFileName>
-      <FilenameWithoutPath>dummy.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\s_sound.c</PathWithFileName>
+      <FilenameWithoutPath>s_sound.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2329,8 +2311,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\p_saveg.c</PathWithFileName>
-      <FilenameWithoutPath>p_saveg.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\sb_bar.c</PathWithFileName>
+      <FilenameWithoutPath>sb_bar.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2341,8 +2323,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\hu_stuff.c</PathWithFileName>
-      <FilenameWithoutPath>hu_stuff.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\sounds.c</PathWithFileName>
+      <FilenameWithoutPath>sounds.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2353,8 +2335,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\hu_lib.c</PathWithFileName>
-      <FilenameWithoutPath>hu_lib.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\deh_io.c</PathWithFileName>
+      <FilenameWithoutPath>deh_io.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2365,8 +2347,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\doom\src\chocdoom\dstrings.c</PathWithFileName>
-      <FilenameWithoutPath>dstrings.c</FilenameWithoutPath>
+      <PathWithFileName>..\heretic\deh_mapping.c</PathWithFileName>
+      <FilenameWithoutPath>deh_mapping.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

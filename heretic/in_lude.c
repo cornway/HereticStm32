@@ -162,7 +162,7 @@ extern void AM_Stop(void);
 
 void IN_Start(void)
 {
-    I_SetPalette(W_CacheLumpName(DEH_String("PLAYPAL"), PU_CACHE));
+    I_SetPalette(W_CacheLumpName(DEH_String("PLAYPAL"), PU_CACHE), 0);
     IN_LoadPics();
     IN_InitStats();
     intermission = true;
@@ -346,7 +346,7 @@ static void LoadLumpCallback(const char *lumpname, int lumpnum, patch_t **ptr)
 {
     if (lumpname != NULL)
     {
-        lumpnum = W_GetNumForName(lumpname);
+        lumpnum = W_GetNumForName((char *)lumpname);
     }
 
     // Cache the lump
@@ -373,7 +373,7 @@ static void UnloadLumpCallback(const char *lumpname, int lumpnum, patch_t **ptr)
 {
     if (lumpname != NULL)
     {
-        W_ReleaseLumpName(lumpname);
+        W_ReleaseLumpName((char *)lumpname);
     }
     else
     {

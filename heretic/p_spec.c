@@ -237,7 +237,7 @@ void P_InitTerrainTypes(void)
     memset(TerrainTypes, 0, size);
     for (i = 0; TerrainTypeDefs[i].type != -1; i++)
     {
-        lump = W_CheckNumForName(TerrainTypeDefs[i].name);
+        lump = W_CheckNumForName((char *)TerrainTypeDefs[i].name);
         if (lump != -1)
         {
             TerrainTypes[lump - firstflat] = TerrainTypeDefs[i].type;
@@ -274,7 +274,7 @@ void P_InitPicAnims(void)
         }
         else
         {                       // Flat animation
-            if (W_CheckNumForName(startname) == -1)
+            if (W_CheckNumForName((char *)startname) == -1)
             {                   // Flat doesn't exist
                 continue;
             }

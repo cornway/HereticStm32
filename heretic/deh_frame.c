@@ -190,6 +190,7 @@ static void DEH_FrameInit(void)
 
 static void *DEH_FrameStart(deh_context_t *context, char *line)
 {
+#ifdef ORIGCODE
     int frame_number = 0;
     int mapped_frame_number;
     state_t *state;
@@ -214,6 +215,9 @@ static void *DEH_FrameStart(deh_context_t *context, char *line)
     state = &states[mapped_frame_number];
 
     return state;
+#else
+    return NULL;
+#endif
 }
 
 static boolean GetActionPointerForOffset(int offset, void **result)
@@ -272,7 +276,7 @@ static void DEH_FrameParseLine(deh_context_t *context, char *line, void *tag)
     state = (state_t *) tag;
 
     // Parse the assignment
-
+#ifdef ORIGCODE
     if (!DEH_ParseAssignment(line, &variable_name, &value))
     {
         // Failed to parse
@@ -280,7 +284,9 @@ static void DEH_FrameParseLine(deh_context_t *context, char *line, void *tag)
         DEH_Warning(context, "Failed to parse assignment");
         return;
     }
-
+#else
+    return;
+#endif
     // all values are integers
 
     ivalue = atoi(value);
@@ -308,19 +314,22 @@ static void DEH_FrameParseLine(deh_context_t *context, char *line, void *tag)
         {
             ivalue = DEH_MapHereticFrameNumber(ivalue);
         }
-
+#ifdef ORIGCODE
         DEH_SetMapping(context, &state_mapping, state, variable_name, ivalue);
+#endif
     }
 }
 
 static void DEH_FrameSHA1Sum(sha1_context_t *context)
 {
+#ifdef ORIGCODE
     int i;
 
     for (i=0; i<NUMSTATES; ++i)
     {
         DEH_StructSHA1Sum(context, &state_mapping, &states[i]);
     }
+#endif
 }
 
 deh_section_t deh_section_frame =

@@ -74,14 +74,16 @@ static void DEH_SoundParseLine(deh_context_t *context, char *line, void *tag)
     sfx = (sfxinfo_t *) tag;
 
     // Parse the assignment
-
+#ifdef ORIGCODE
     if (!DEH_ParseAssignment(line, &variable_name, &value))
     {
         // Failed to parse
         DEH_Warning(context, "Failed to parse assignment");
         return;
     }
-
+#else
+    return;
+#endif
     // Set the field value:
 
     if (!strcasecmp(variable_name, "Name"))

@@ -56,9 +56,9 @@ static wad_file_t *W_StdC_OpenFile(char *path)
     return &result->wad;
 #else
     stdc_wad_file_t *result;
-    int file;
+    int file, length;
 
-    result->wad.length = d_open(path, &file, "r");
+    length = d_open(path, &file, "r");
     if (file < 0)
     {
     	return NULL;
@@ -69,6 +69,7 @@ static wad_file_t *W_StdC_OpenFile(char *path)
     result = Z_Malloc(sizeof(stdc_wad_file_t), PU_STATIC, 0);
 	result->wad.file_class = &stdc_wad_file;
 	result->wad.mapped = NULL;
+    result->wad.length = length;
 	result->fstream = file;
 
 	return &result->wad;

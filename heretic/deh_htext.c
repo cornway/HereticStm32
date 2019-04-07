@@ -777,7 +777,7 @@ static void *DEH_TextStart(deh_context_t *context, char *line)
         return NULL;
     }
 
-    repl_text = malloc(repl_len + 1);
+    repl_text = Sys_Malloc(repl_len + 1);
 
     // read in the "to" text
 
@@ -823,7 +823,7 @@ static void *DEH_TextStart(deh_context_t *context, char *line)
     }
 
     // We must always free the replacement text.
-    free(repl_text);
+    Sys_Free(repl_text);
 
     return NULL;
 }

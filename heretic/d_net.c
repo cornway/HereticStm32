@@ -120,7 +120,7 @@ static void LoadGameSettings(net_gamesettings_t *settings)
 
     if (lowres_turn)
     {
-        printf("NOTE: Turning resolution is reduced; this is probably "
+        dprintf("NOTE: Turning resolution is reduced; this is probably "
                "because there is a client recording a Vanilla demo.\n");
     }
 
@@ -174,8 +174,9 @@ static void InitConnectData(net_connect_data_t *connect_data)
     // Read checksums of our WAD directory and dehacked information
 
     W_Checksum(connect_data->wad_sha1sum);
+#ifdef ORIGCODE
     DEH_Checksum(connect_data->deh_sha1sum);
-
+#endif
     connect_data->is_freedoom = 0;
 }
 

@@ -226,7 +226,7 @@ wad_file_t *W_AddFile (char *filename)
         // here, as it would appear on disk.
 
 		fileinfo = Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
-		fileinfo->filepos = LONG(0);
+		fileinfo->filepos = 0;
 		fileinfo->size = LONG(wad_file->length);
 
         // Name the lump after the base of the filename (without the
@@ -323,7 +323,7 @@ wad_file_t *W_AddPwad (char *filename)
         // here, as it would appear on disk.
 
 		fileinfo = Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
-		fileinfo->filepos = LONG(0);
+		fileinfo->filepos = 0;
 		fileinfo->size = LONG(wad_file->length);
 
         // Name the lump after the base of the filename (without the

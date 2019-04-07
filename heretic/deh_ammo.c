@@ -57,7 +57,7 @@ static void DEH_AmmoParseLine(deh_context_t *context, char *line, void *tag)
     ammo_number = ((int *) tag) - maxammo;
 
     // Parse the assignment
-
+#ifdef ORIGCODE
     if (!DEH_ParseAssignment(line, &variable_name, &value))
     {
         // Failed to parse
@@ -65,7 +65,9 @@ static void DEH_AmmoParseLine(deh_context_t *context, char *line, void *tag)
         DEH_Warning(context, "Failed to parse assignment");
         return;
     }
-
+#else
+    return;
+#endif
     ivalue = atoi(value);
 
     if (!strcasecmp(variable_name, "Per ammo"))

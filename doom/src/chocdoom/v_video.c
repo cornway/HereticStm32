@@ -690,6 +690,7 @@ void WritePCXfile(char *filename, pix_t *data,
     int		length;
     pcx_t*	pcx;
     byte*	pack;
+    int _w = width - 1, _h = height - 1;
 	
     pcx = Z_Malloc (width*height*2+1000, PU_STATIC, NULL);
 
@@ -699,14 +700,14 @@ void WritePCXfile(char *filename, pix_t *data,
     pcx->bits_per_pixel = 8;		// 256 color
     pcx->xmin = 0;
     pcx->ymin = 0;
-    pcx->xmax = SHORT(width-1);
-    pcx->ymax = SHORT(height-1);
+    pcx->xmax = SHORT(_w);
+    pcx->ymax = SHORT(_h);
     pcx->hres = SHORT(width);
     pcx->vres = SHORT(height);
     memset (pcx->palette,0,sizeof(pcx->palette));
     pcx->color_planes = 1;		// chunky image
     pcx->bytes_per_line = SHORT(width);
-    pcx->palette_type = SHORT(2);	// not a grey scale
+    pcx->palette_type = 2;	// not a grey scale
     memset (pcx->filler,0,sizeof(pcx->filler));
 
     // pack the image

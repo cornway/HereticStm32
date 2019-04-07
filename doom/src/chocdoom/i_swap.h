@@ -44,8 +44,8 @@
 
 #else
 	
-#define SHORT(x)  ((signed short) (x))
-#define LONG(x)   ((signed int) (x))
+#define SHORT(x)  READ_LE_I16(x)
+#define LONG(x)   READ_LE_I32(x)
 
 #define SYS_LITTLE_ENDIAN
 

@@ -164,7 +164,7 @@ void F_TextWrite(void)
 //
 // erase the entire screen to a tiled background
 //
-    src = W_CacheLumpName(finaleflat, PU_CACHE);
+    src = W_CacheLumpName((char *)finaleflat, PU_CACHE);
     dest = I_VideoBuffer;
     for (y = 0; y < SCREENHEIGHT; y++)
     {
@@ -314,9 +314,9 @@ void F_DrawUnderwater(void)
                 underwawa = true;
                 V_DrawFilledBox(0, 0, SCREENWIDTH, SCREENHEIGHT, 0);
                 lumpname = DEH_String("E2PAL");
-                palette = W_CacheLumpName(lumpname, PU_STATIC);
-                I_SetPalette(palette);
-                W_ReleaseLumpName(lumpname);
+                palette = W_CacheLumpName((char *)lumpname, PU_STATIC);
+                I_SetPalette(palette, 0);
+                W_ReleaseLumpName((char *)lumpname);
                 V_DrawRawScreen(W_CacheLumpName(DEH_String("E2END"), PU_CACHE));
             }
             paused = false;
@@ -328,9 +328,9 @@ void F_DrawUnderwater(void)
             if (underwawa)
             {
                 lumpname = DEH_String("PLAYPAL");
-                palette = W_CacheLumpName(lumpname, PU_STATIC);
-                I_SetPalette(palette);
-                W_ReleaseLumpName(lumpname);
+                palette = W_CacheLumpName((char *)lumpname, PU_STATIC);
+                I_SetPalette(palette, 0);
+                W_ReleaseLumpName((char *)lumpname);
                 underwawa = false;
             }
             V_DrawRawScreen(W_CacheLumpName(DEH_String("TITLE"), PU_CACHE));

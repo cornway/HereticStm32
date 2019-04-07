@@ -30,7 +30,6 @@
 #include "deh_main.h"
 #include "d_iwad.h"
 #include "i_endoom.h"
-#include "i_input.h"
 #include "i_joystick.h"
 #include "i_sound.h"
 #include "i_system.h"
@@ -44,6 +43,13 @@
 #include "s_sound.h"
 #include "w_main.h"
 #include "v_video.h"
+#include "input_main.h"
+#include "audio_main.h"
+
+#ifndef ORIGCODE
+#define M_BindIntVariable(x...)
+#define M_BindStringVariable(x...)
+#endif
 
 #define CT_KEY_GREEN    'g'
 #define CT_KEY_YELLOW   'y'
@@ -54,7 +60,7 @@
 #define STARTUP_WINDOW_Y 7
 
 GameMode_t gamemode = indetermined;
-const char *gamedescription = "unknown";
+extern const char *gamedescription;
 
 boolean nomonsters;             // checkparm of -nomonsters
 boolean respawnparm;            // checkparm of -respawn
@@ -75,7 +81,13 @@ extern boolean automapactive;
 
 boolean advancedemo;
 
-FILE *debugfile;
+boolean deh_allow_extended_strings = false;
+boolean deh_allow_long_strings = false;
+boolean deh_allow_long_cheats = false;
+boolean deh_apply_cheats = false;
+
+
+int debugfile;
 
 static int show_endoom = 1;
 
@@ -238,11 +250,13 @@ void D_DoomLoop(void)
     {
         char filename[20];
         M_snprintf(filename, sizeof(filename), "debug%i.txt", consoleplayer);
-        debugfile = fopen(filename, "w");
+        d_open(filename, &debugfile, "w");
     }
     I_GraphicsCheckCommandLine();
     I_SetGrabMouseCallback(D_GrabMouseCallback);
     I_InitGraphics();
+
+    I_SetPalette ((byte *)W_CacheLumpName (DEH_String("PLAYPAL"),PU_CACHE), 0);
 
     main_loop_started = true;
 
@@ -258,6 +272,8 @@ void D_DoomLoop(void)
         // Move positional sounds
         S_UpdateSounds(players[consoleplayer].mo);
         D_Display();
+        audio_update();
+        input_tickle();
     }
 }
 
@@ -301,7 +317,7 @@ void D_PageTicker(void)
 
 void D_PageDrawer(void)
 {
-    V_DrawRawScreen(W_CacheLumpName(pagename, PU_CACHE));
+    V_DrawRawScreen(W_CacheLumpName((char *)pagename, PU_CACHE));
     if (demosequence == 1)
     {
         V_DrawPatch(4, 160, W_CacheLumpName(DEH_String("ADVISOR"), PU_CACHE));
@@ -428,7 +444,7 @@ void D_CheckRecordFrom(void)
 
     G_RecordDemo(gameskill, 1, gameepisode, gamemap, myargv[p + 2]);
     D_DoomLoop();               // never returns
-    free(filename);
+    Sys_Free(filename);
 }
 
 /*
@@ -461,7 +477,7 @@ boolean D_AddFile(char *file)
 {
     wad_file_t *handle;
 
-    printf("  adding %s\n", file);
+    dprintf("  adding %s\n", file);
 
     handle = W_AddFile(file);
 
@@ -491,6 +507,7 @@ void hprintf(const char *string)
 {
     if (using_graphical_startup)
     {
+#ifdef ORIGCODE
         TXT_BGColor(TXT_COLOR_CYAN, 0);
         TXT_FGColor(TXT_COLOR_BRIGHT_WHITE);
 
@@ -499,15 +516,20 @@ void hprintf(const char *string)
         TXT_Puts(string);
 
         TXT_UpdateScreen();
+#else
+        dprintf(string);
+#endif
     }
-
+#ifdef ORIGCODE
     // haleyjd: shouldn't be WATCOMC-only
     if (debugmode)
         puts(string);
+#endif
 }
 
 void drawstatus(void)
 {
+#ifdef ORIGCODE
     int i;
 
     TXT_GotoXY(1, 24);
@@ -518,6 +540,9 @@ void drawstatus(void)
     {
         TXT_PutChar(smsg[i]);
     }
+#else
+    dprintf(smsg);
+#endif
 }
 
 static void status(const char *string)
@@ -550,7 +575,7 @@ void DrawThermo(void)
     }
 
     last_progress = progress;
-
+#ifdef ORIGCODE
     TXT_GotoXY(THERM_X, THERM_Y);
 
     TXT_FGColor(TXT_COLOR_BRIGHT_GREEN);
@@ -562,6 +587,7 @@ void DrawThermo(void)
     }
 
     TXT_UpdateScreen();
+#endif
 }
 
 void initStartup(void)
@@ -574,7 +600,7 @@ void initStartup(void)
         using_graphical_startup = false;
         return;
     }
-
+#ifdef ORIGCODE
     if (!TXT_Init()) 
     {
         using_graphical_startup = false;
@@ -583,21 +609,24 @@ void initStartup(void)
 
     I_InitWindowTitle();
     I_InitWindowIcon();
+#endif
 
     // Blit main screen
+#ifdef ORIGCODE
     textScreen = TXT_GetScreenData();
     loading = W_CacheLumpName(DEH_String("LOADING"), PU_CACHE);
     memcpy(textScreen, loading, 4000);
-
     // Print version string
-
     TXT_BGColor(TXT_COLOR_RED, 0);
     TXT_FGColor(TXT_COLOR_YELLOW);
     TXT_GotoXY(46, 2);
     TXT_Puts(HERETIC_VERSION_TEXT);
 
     TXT_UpdateScreen();
-
+#else
+    dprintf("initStartup()\n");
+    dprintf(HERETIC_VERSION_TEXT);
+#endif
     using_graphical_startup = true;
 }
 
@@ -605,21 +634,23 @@ static void finishStartup(void)
 {
     if (using_graphical_startup)
     {
+#ifdef ORIGCODE
         TXT_Shutdown();
+#endif
     }
 }
 
 char tmsg[300];
 void tprintf(const char *msg, int initflag)
 {
-    printf("%s", msg);
+    dprintf("%s", msg);
 }
 
 // haleyjd: moved up, removed WATCOMC code
 void CleanExit(void)
 {
     DEH_printf("Exited from HERETIC.\n");
-    exit(1);
+    fatal_error("exit : 1\n");
 }
 
 void CheckAbortStartup(void)
@@ -629,8 +660,10 @@ void CheckAbortStartup(void)
     // get input before SDL video init?
     if(using_graphical_startup)
     {
+#ifdef ORIGCODE
         if(TXT_GetChar() == 27)
             CleanExit();
+#endif
     }
 }
 
@@ -658,8 +691,9 @@ void D_BindVariables(void)
     int i;
 
     M_ApplyPlatformDefaults();
-
+#ifdef ORIGCODE
     I_BindInputVariables();
+#endif
     I_BindVideoVariables();
     I_BindJoystickVariables();
     I_BindSoundVariables();
@@ -676,9 +710,9 @@ void D_BindVariables(void)
 
     M_BindMenuControls();
     M_BindMapControls();
-
+#ifdef ORIGCODE
     NET_BindVariables();
-
+#endif
     M_BindIntVariable("mouse_sensitivity",      &mouseSensitivity);
     M_BindIntVariable("sfx_volume",             &snd_MaxVolume);
     M_BindIntVariable("music_volume",           &snd_MusicVolume);
@@ -905,9 +939,10 @@ void D_DoomMain(void)
     //
     // Disable auto-loading of .wad files.
     //
+#ifdef ORIGCODE
     if (!M_ParmExists("-noautoload"))
     {
-        char *autoload_dir;
+        char *autoload_dir = "/heretic";
         autoload_dir = M_GetAutoloadDir("heretic.wad");
         DEH_AutoLoadPatches(autoload_dir);
         W_AutoLoadWADs(autoload_dir);
@@ -916,7 +951,7 @@ void D_DoomMain(void)
 
     // Load dehacked patches specified on the command line.
     DEH_ParseCommandLine();
-
+#endif
     // Load PWAD files.
     W_ParseCommandLine();
 
@@ -959,11 +994,11 @@ void D_DoomMain(void)
             DEH_snprintf(file, sizeof(file), "%s.lmp", myargv[p + 1]);
         }
 
-        free(uc_filename);
+        Sys_Free(uc_filename);
 
         if (D_AddFile(file))
         {
-            M_StringCopy(demolumpname, lumpinfo[numlumps - 1]->name,
+            M_StringCopy(demolumpname, lumpinfo[numlumps - 1].name,
                          sizeof(demolumpname));
         }
         else
@@ -973,7 +1008,7 @@ void D_DoomMain(void)
             M_StringCopy(demolumpname, myargv[p + 1], sizeof(demolumpname));
         }
 
-        printf("Playing demo %s.\n", file);
+        dprintf("Playing demo %s.\n", file);
     }
 
     // Generate the WAD hash table.  Speed things up a bit.
@@ -1006,11 +1041,11 @@ void D_DoomMain(void)
         gamedescription = "Heretic (registered)";
     }
 
-    I_SetWindowTitle(gamedescription);
+    I_SetWindowTitle((char *)gamedescription);
 
     savegamedir = M_GetSaveGameDir("heretic.wad");
 
-    I_PrintStartupBanner(gamedescription);
+    I_PrintStartupBanner((char *)gamedescription);
 
     if (M_ParmExists("-testcontrols"))
     {
@@ -1025,8 +1060,9 @@ void D_DoomMain(void)
     I_InitMusic();
 
     tprintf("NET_Init: Init network subsystem.\n", 1);
+#ifdef ORIGCODE
     NET_Init ();
-
+#endif
     D_ConnectNetGame();
 
     // haleyjd: removed WATCOMC
@@ -1139,7 +1175,7 @@ void D_DoomMain(void)
 
 	filename = SV_Filename(myargv[p + 1][0] - '0');
         G_LoadGame(filename);
-	free(filename);
+	Sys_Free(filename);
     }
 
     // Check valid episode and map
@@ -1170,3 +1206,40 @@ void D_DoomMain(void)
 
     D_DoomLoop();               // Never returns
 }
+
+/*FIXME : */
+void H_memcpy (void *dest, void *src, int count)
+{
+    int             i;
+
+    if (( ( (long)dest | (long)src | count) & 3) == 0 )
+    {
+        count>>=2;
+        for (i=0 ; i<count ; i++)
+            ((int *)dest)[i] = ((int *)src)[i];
+    }
+    else
+        for (i=0 ; i<count ; i++)
+            ((byte *)dest)[i] = ((byte *)src)[i];
+}
+
+int H_strcmp (const char *s1, const char *s2)
+{
+    while (1)
+    {
+        if (*s1 != *s2)
+            return -1;              // strings not equal    
+        if (!*s1)
+            return 0;               // strings are equal
+        s1++;
+        s2++;
+    }
+
+    return -1;
+}
+
+void I_Endoom(byte *endoom_data)
+{
+    fatal_error("I_Endoom\n");
+}
+

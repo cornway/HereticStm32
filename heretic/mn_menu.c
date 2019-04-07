@@ -22,7 +22,6 @@
 #include "deh_str.h"
 #include "doomdef.h"
 #include "doomkeys.h"
-#include "i_input.h"
 #include "i_system.h"
 #include "i_swap.h"
 #include "m_controls.h"
@@ -122,6 +121,8 @@ extern int detailLevel;
 extern int screenblocks;
 
 // Public Data
+
+boolean	devparm;
 
 boolean MenuActive;
 int InfoType;
@@ -531,7 +532,7 @@ void MN_Drawer(void)
         y = CurrentMenu->y + (CurrentItPos * ITEM_HEIGHT) + SELECTOR_YOFFSET;
         selName = DEH_String(MenuTime & 16 ? "M_SLCTR1" : "M_SLCTR2");
         V_DrawPatch(x + SELECTOR_XOFFSET, y,
-                    W_CacheLumpName(selName, PU_CACHE));
+                    W_CacheLumpName((char *)selName, PU_CACHE));
     }
 }
 
@@ -856,8 +857,9 @@ static boolean SCSaveGame(int option)
         // game name:
         x = SaveMenu.x + 1;
         y = SaveMenu.y + 1 + option * ITEM_HEIGHT;
+#ifdef ORIGCODE
         I_StartTextInput(x, y, x + 190, y + ITEM_HEIGHT - 2);
-
+#endif
         M_StringCopy(oldSlotText, SlotText[option], sizeof(oldSlotText));
         ptr = SlotText[option];
         while (*ptr)
@@ -875,7 +877,9 @@ static boolean SCSaveGame(int option)
     {
         G_SaveGame(option, SlotText[option]);
         FileMenuKeySteal = false;
+#ifdef ORIGCODE
         I_StopTextInput();
+#endif
         MN_DeactivateMenu();
     }
     BorderNeedRefresh = true;
@@ -1152,7 +1156,7 @@ boolean MN_Responder(event_t * event)
                     players[consoleplayer].message = NULL;
                     paused = false;
                     I_SetPalette(W_CacheLumpName
-                                 ("PLAYPAL", PU_CACHE));
+                                 ("PLAYPAL", PU_CACHE), 0);
                     D_StartTitle();     // go to intro/demo mode.
                     break;
 
@@ -1377,7 +1381,7 @@ boolean MN_Responder(event_t * event)
             {
                 usegamma = 0;
             }
-            I_SetPalette((byte *) W_CacheLumpName("PLAYPAL", PU_CACHE));
+            I_SetPalette((byte *) W_CacheLumpName("PLAYPAL", PU_CACHE), 0);
             return true;
         }
 
@@ -1623,7 +1627,9 @@ void MN_DeactivateMenu(void)
     MenuActive = false;
     if (FileMenuKeySteal)
     {
+#ifdef ORIGCODE
         I_StopTextInput();
+#endif
     }
     if (!netgame)
     {
@@ -1647,7 +1653,7 @@ void MN_DeactivateMenu(void)
 
 void MN_DrawInfo(void)
 {
-    I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
+    I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE), 0);
     V_DrawRawScreen(W_CacheLumpNum(W_GetNumForName("TITLE") + InfoType,
                                    PU_CACHE));
 //      V_DrawPatch(0, 0, W_CacheLumpNum(W_GetNumForName("TITLE")+InfoType,
@@ -1693,3 +1699,23 @@ static void DrawSlider(Menu_t * menu, int item, int width, int slot)
     V_DrawPatch(x + 4 + slot * 8, y + 7,
                 W_CacheLumpName(DEH_String("M_SLDKB"), PU_CACHE));
 }
+
+/*FIXME :*/
+void
+R_VideoErase
+( unsigned	ofs,
+  int		count ) 
+{ 
+  // LFB copy.
+  // This might not be a good idea if memcpy
+  //  is not optiomal, e.g. byte by byte on
+  //  a 32bit CPU, as GNU GCC/Linux libc did
+  //  at one point.
+#ifdef ORIGCODE
+    if (background_buffer != NULL)
+    {
+        memcpy(I_VideoBuffer + ofs, background_buffer + ofs, count * sizeof(pix_t)); 
+    }
+#endif
+} 
+
