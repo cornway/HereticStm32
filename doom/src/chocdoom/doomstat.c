@@ -24,7 +24,7 @@
 // Game Mode - identify IWAD as shareware, retail etc.
 extern GameMode_t gamemode;
 GameMission_t	gamemission = doom;
-GameVersion_t   gameversion = hexen;
+GameVersion_t   gameversion = exe_heretic_1_3;
 char *gamedescription = "unknown";
 
 // Set if homebrew PWAD stuff has been added.

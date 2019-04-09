@@ -26,7 +26,7 @@
 #include "m_argv.h"
 #include "m_misc.h"
 #include "w_checksum.h"
-
+#include "debug.h"
 #include "deh_main.h"
 
 #include "d_loop.h"
@@ -111,7 +111,7 @@ static void LoadGameSettings(net_gamesettings_t *settings)
     ticdup = settings->ticdup;
     startepisode = settings->episode;
     startmap = settings->map;
-    startskill = settings->skill;
+    startskill = (skill_t)settings->skill;
     // TODO startloadgame = settings->loadgame;
     lowres_turn = settings->lowres_turn;
     nomonsters = settings->nomonsters;

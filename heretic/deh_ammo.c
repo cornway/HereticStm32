@@ -47,6 +47,7 @@ static void *DEH_AmmoStart(deh_context_t *context, char *line)
 
 static void DEH_AmmoParseLine(deh_context_t *context, char *line, void *tag)
 {
+#ifdef ORIGCODE
     char *variable_name, *value;
     int ivalue;
     int ammo_number;
@@ -57,7 +58,6 @@ static void DEH_AmmoParseLine(deh_context_t *context, char *line, void *tag)
     ammo_number = ((int *) tag) - maxammo;
 
     // Parse the assignment
-#ifdef ORIGCODE
     if (!DEH_ParseAssignment(line, &variable_name, &value))
     {
         // Failed to parse
@@ -65,9 +65,6 @@ static void DEH_AmmoParseLine(deh_context_t *context, char *line, void *tag)
         DEH_Warning(context, "Failed to parse assignment");
         return;
     }
-#else
-    return;
-#endif
     ivalue = atoi(value);
 
     if (!strcasecmp(variable_name, "Per ammo"))
@@ -86,6 +83,9 @@ static void DEH_AmmoParseLine(deh_context_t *context, char *line, void *tag)
     {
         DEH_Warning(context, "Field named '%s' not found", variable_name);
     }
+#else
+    return;
+#endif
 }
 
 static void DEH_AmmoSHA1Hash(sha1_context_t *context)

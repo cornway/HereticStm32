@@ -103,9 +103,6 @@ static void DEH_ThingParseLine(deh_context_t *context, char *line, void *tag)
         DEH_Warning(context, "Failed to parse assignment");
         return;
     }
-#else
-    return;
-#endif
     // all values are integers
 
     ivalue = atoi(value);
@@ -122,6 +119,9 @@ static void DEH_ThingParseLine(deh_context_t *context, char *line, void *tag)
     // Set the field value
 
     DEH_SetMapping(context, &thing_mapping, mobj, variable_name, ivalue);
+#else
+    return;
+#endif
 }
 
 static void DEH_ThingSHA1Sum(sha1_context_t *context)

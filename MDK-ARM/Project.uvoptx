@@ -152,7 +152,7 @@
           <Type>0</Type>
           <LineNumber>81</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134304216</Address>
+          <Address>134304248</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -880,7 +880,7 @@
 
   <Group>
     <GroupName>Drivers/BSP/STM32F769I_Discovery</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

@@ -93,8 +93,9 @@ const char *LevelNames[] = {
 
 static int cheating = 0;
 static int grid = 0;
-
+#ifdef ORIGCODE
 static int leveljuststarted = 1;        // kluge until AM_LevelInit() is called
+#endif
 
 boolean automapactive = false;
 static int finit_width = SCREENWIDTH;
@@ -117,7 +118,9 @@ static fixed_t m_w, m_h;
 static fixed_t min_x, min_y;    // based on level size
 static fixed_t max_x, max_y;    // based on level size
 static fixed_t max_w, max_h;    // max_x-min_x, max_y-min_y
+#ifdef ORIGCODE
 static fixed_t min_w, min_h;    // based on player size
+#endif
 static fixed_t min_scale_mtof;  // used to tell when to stop zooming out
 static fixed_t max_scale_mtof;  // used to tell when to stop zooming in
 
@@ -264,9 +267,10 @@ void AM_findMinMaxBoundaries(void)
     }
     max_w = max_x - min_x;
     max_h = max_y - min_y;
+#ifdef ORIGCODE
     min_w = 2 * PLAYERRADIUS;
     min_h = 2 * PLAYERRADIUS;
-
+#endif
     a = FixedDiv(f_w << FRACBITS, max_w);
     b = FixedDiv(f_h << FRACBITS, max_h);
     min_scale_mtof = a < b ? a : b;
@@ -435,8 +439,9 @@ void AM_clearMarks(void)
 
 void AM_LevelInit(void)
 {
+#ifdef ORIGCODE
     leveljuststarted = 0;
-
+#endif
     f_x = f_y = 0;
     f_w = finit_width;
     f_h = finit_height;
@@ -509,8 +514,9 @@ boolean AM_Responder(event_t * ev)
     int rc;
     int key;
     static int bigstate = 0;
+#ifdef ORIGCODE
     static int joywait = 0;
-
+#endif
     key = ev->data1;
     rc = false;
 

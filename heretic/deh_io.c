@@ -27,6 +27,7 @@
 
 #include "deh_defs.h"
 #include "deh_io.h"
+#include "dev_io.h"
 
 typedef enum
 {
@@ -88,7 +89,7 @@ deh_context_t *DEH_OpenFile(const char *filename)
     int fstream;
     deh_context_t *context;
 
-    d_open(filename, &fstream, "r");
+    d_open((char *)filename, &fstream, "r");
 
     if (fstream < 0)
         return NULL;

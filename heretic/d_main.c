@@ -43,8 +43,8 @@
 #include "s_sound.h"
 #include "w_main.h"
 #include "v_video.h"
-#include "input_main.h"
-#include "audio_main.h"
+#include "debug.h"
+#include "dev_io.h"
 
 #ifndef ORIGCODE
 #define M_BindIntVariable(x...)
@@ -244,6 +244,8 @@ boolean D_GrabMouseCallback(void)
 //
 //---------------------------------------------------------------------------
 
+extern void dev_tickle (void);
+
 void D_DoomLoop(void)
 {
     if (M_CheckParm("-debugfile"))
@@ -272,8 +274,7 @@ void D_DoomLoop(void)
         // Move positional sounds
         S_UpdateSounds(players[consoleplayer].mo);
         D_Display();
-        audio_update();
-        input_tickle();
+        dev_tickle();
     }
 }
 
@@ -500,8 +501,9 @@ char smsg[80];                  // status bar line
 //
 //  Heretic startup screen shit
 //
-
+#ifdef ORIGCODE
 static int startup_line = STARTUP_WINDOW_Y;
+#endif
 
 void hprintf(const char *string)
 {
@@ -517,7 +519,7 @@ void hprintf(const char *string)
 
         TXT_UpdateScreen();
 #else
-        dprintf(string);
+        dprintf((char *)string);
 #endif
     }
 #ifdef ORIGCODE
@@ -587,14 +589,21 @@ void DrawThermo(void)
     }
 
     TXT_UpdateScreen();
+#else
+    for (i = 0; i < progress; i++)
+    {
+        dprintf(".");
+    }
+    dprintf("\n");
 #endif
 }
 
 void initStartup(void)
 {
+#ifdef ORIGCODE
     byte *textScreen;
     byte *loading;
-
+#endif
     if (!graphical_startup || debugmode || testcontrols)
     {
         using_graphical_startup = false;
@@ -838,7 +847,7 @@ void D_DoomMain(void)
     p = M_CheckParmWithArgs("-skill", 1);
     if (p)
     {
-        startskill = myargv[p + 1][0] - '1';
+        startskill = (skill_t)(myargv[p + 1][0] - '1');
         autostart = true;
     }
 
@@ -1225,17 +1234,19 @@ void H_memcpy (void *dest, void *src, int count)
 
 int H_strcmp (const char *s1, const char *s2)
 {
+    int ret = 0;
     while (1)
     {
-        if (*s1 != *s2)
-            return -1;              // strings not equal    
+        if (*s1 != *s2) {
+            ret = -1;              // strings not equal
+            break;
+        }            
         if (!*s1)
-            return 0;               // strings are equal
+            break;               // strings are equal
         s1++;
         s2++;
     }
-
-    return -1;
+    return ret;
 }
 
 void I_Endoom(byte *endoom_data)

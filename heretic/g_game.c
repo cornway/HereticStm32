@@ -434,7 +434,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
             if (inventory)
             {
                 players[consoleplayer].readyArtifact =
-                    players[consoleplayer].inventory[inv_ptr].type;
+                    (artitype_t)players[consoleplayer].inventory[inv_ptr].type;
                 inventory = false;
                 cmd->arti = 0;
                 usearti = false;
@@ -774,7 +774,7 @@ boolean G_Responder(event_t * ev)
     {                           // flag to denote that it's okay to use an artifact
         if (!inventory)
         {
-            plr->readyArtifact = plr->inventory[inv_ptr].type;
+            plr->readyArtifact = (artitype_t)plr->inventory[inv_ptr].type;
         }
         usearti = true;
     }
@@ -1059,7 +1059,7 @@ void G_Ticker(void)
     if (inventory && !(--inventoryTics))
     {
         players[consoleplayer].readyArtifact =
-            players[consoleplayer].inventory[inv_ptr].type;
+            (artitype_t)players[consoleplayer].inventory[inv_ptr].type;
         inventory = false;
         cmd->arti = 0;
     }

@@ -743,7 +743,7 @@ static void SuggestOtherVersions(unsigned int offset)
         {
             if (strings[i].offsets[v] == offset)
             {
-                DEH_SuggestHereticVersion(v);
+                DEH_SuggestHereticVersion((deh_hhe_version_t)v);
             }
         }
     }
@@ -758,7 +758,7 @@ static void SuggestOtherVersions(unsigned int offset)
         {
             if (string_list[i] == offset)
             {
-                DEH_SuggestHereticVersion(v);
+                DEH_SuggestHereticVersion((deh_hhe_version_t)v);
             }
         }
     }

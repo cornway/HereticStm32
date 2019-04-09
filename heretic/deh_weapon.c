@@ -85,9 +85,6 @@ static void DEH_WeaponParseLine(deh_context_t *context, char *line, void *tag)
         DEH_Warning(context, "Failed to parse assignment");
         return;
     }
-#else
-    return;
-#endif
     ivalue = atoi(value);
 
     // If this is a frame field, we need to map from Heretic 1.0 frame
@@ -99,6 +96,9 @@ static void DEH_WeaponParseLine(deh_context_t *context, char *line, void *tag)
     }
 
     DEH_SetMapping(context, &weapon_mapping, weapon, variable_name, ivalue);
+#else
+    return;
+#endif
 }
 
 static void DEH_WeaponSHA1Sum(sha1_context_t *context)

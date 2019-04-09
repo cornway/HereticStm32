@@ -81,9 +81,6 @@ static void DEH_SoundParseLine(deh_context_t *context, char *line, void *tag)
         DEH_Warning(context, "Failed to parse assignment");
         return;
     }
-#else
-    return;
-#endif
     // Set the field value:
 
     if (!strcasecmp(variable_name, "Name"))
@@ -96,6 +93,9 @@ static void DEH_SoundParseLine(deh_context_t *context, char *line, void *tag)
         DEH_SetMapping(context, &sound_mapping, sfx,
                        variable_name, atoi(value));
     }
+#else
+    return;
+#endif
 }
 
 deh_section_t deh_section_sound =

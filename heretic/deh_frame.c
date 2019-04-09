@@ -42,7 +42,7 @@ typedef struct
 
 //    Offset                      Action function
 //        v1.0    v1.2    v1.3
-
+#ifdef ORIGCODE
 static const hhe_action_pointer_t action_pointers[] =
 {
     { {  77680,  80144,  80208 }, A_AccTeleGlitter },
@@ -181,6 +181,7 @@ DEH_BEGIN_MAPPING(state_mapping, state_t)
   DEH_MAPPING("Unknown 1",        misc1)
   DEH_MAPPING("Unknown 2",        misc2)
 DEH_END_MAPPING
+#endif
 
 static void DEH_FrameInit(void)
 {
@@ -220,6 +221,7 @@ static void *DEH_FrameStart(deh_context_t *context, char *line)
 #endif
 }
 
+#ifdef ORIGCODE
 static boolean GetActionPointerForOffset(int offset, void **result)
 {
     int i;
@@ -243,7 +245,6 @@ static boolean GetActionPointerForOffset(int offset, void **result)
 
     return false;
 }
-
 // If an invalid action pointer is specified, the patch may be for a
 // different version from the version we are currently set to.  Try to
 // suggest a different version to use.
@@ -258,14 +259,16 @@ static void SuggestOtherVersions(unsigned int offset)
         {
             if (action_pointers[i].offsets[v] == offset)
             {
-                DEH_SuggestHereticVersion(v);
+                DEH_SuggestHereticVersion((deh_hhe_version_t)v);
             }
         }
     }
 }
+#endif
 
 static void DEH_FrameParseLine(deh_context_t *context, char *line, void *tag)
 {
+#ifdef ORIGCODE
     state_t *state;
     char *variable_name, *value;
     int ivalue;
@@ -276,7 +279,7 @@ static void DEH_FrameParseLine(deh_context_t *context, char *line, void *tag)
     state = (state_t *) tag;
 
     // Parse the assignment
-#ifdef ORIGCODE
+
     if (!DEH_ParseAssignment(line, &variable_name, &value))
     {
         // Failed to parse
@@ -284,9 +287,6 @@ static void DEH_FrameParseLine(deh_context_t *context, char *line, void *tag)
         DEH_Warning(context, "Failed to parse assignment");
         return;
     }
-#else
-    return;
-#endif
     // all values are integers
 
     ivalue = atoi(value);
@@ -314,10 +314,11 @@ static void DEH_FrameParseLine(deh_context_t *context, char *line, void *tag)
         {
             ivalue = DEH_MapHereticFrameNumber(ivalue);
         }
-#ifdef ORIGCODE
         DEH_SetMapping(context, &state_mapping, state, variable_name, ivalue);
-#endif
     }
+#else
+    return;
+#endif
 }
 
 static void DEH_FrameSHA1Sum(sha1_context_t *context)
