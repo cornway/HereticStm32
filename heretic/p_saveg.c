@@ -25,8 +25,9 @@
 #include "p_local.h"
 #include "v_video.h"
 #include "deh_str.h"
+#include "dev_io.h"
 
-static FILE *SaveGameFP;
+static int SaveGameFP = -1;
 
 int vanilla_savegame_limit = 1;
 
@@ -46,7 +47,7 @@ char *SV_Filename(int slot)
     size_t filename_len;
 
     filename_len = strlen(savegamedir) + strlen(SAVEGAMENAME) + 8;
-    filename = malloc(filename_len);
+    filename = Sys_Malloc(filename_len);
     M_snprintf(filename, filename_len,
                "%s" SAVEGAMENAME "%d.hsg", savegamedir, slot);
 
@@ -61,14 +62,14 @@ char *SV_Filename(int slot)
 
 void SV_Open(char *fileName)
 {
-    SaveGameFP = fopen(fileName, "wb");
+    d_open(fileName, &SaveGameFP, "+w");
 }
 
 void SV_OpenRead(char *filename)
 {
-    SaveGameFP = fopen(filename, "rb");
+    d_open(filename, &SaveGameFP, "r");
 
-    if (SaveGameFP == NULL)
+    if (SaveGameFP < 0)
     {
         I_Error("Could not load savegame %s", filename);
     }
@@ -82,16 +83,15 @@ void SV_OpenRead(char *filename)
 
 void SV_Close(char *fileName)
 {
-    SV_WriteByte(SAVE_GAME_TERMINATOR);
-
     // Enforce the same savegame size limit as in Vanilla Heretic
-
+#ifdef ORIGCODE
     if (vanilla_savegame_limit && ftell(SaveGameFP) > SAVEGAMESIZE)
     {
         I_Error("Savegame buffer overrun");
     }
-
-    fclose(SaveGameFP);
+#endif
+    d_close(SaveGameFP);
+    SaveGameFP = -1;
 }
 
 //==========================================================================
@@ -99,10 +99,43 @@ void SV_Close(char *fileName)
 // SV_Write
 //
 //==========================================================================
+static byte *savebuf = NULL;
+static int savepos = 0;
+
+#define SV_SAVECACHE_SIZE (256 * 1024)
+
+void SV_BeginSave (char *filename)
+{
+    savebuf = Z_Malloc(SV_SAVECACHE_SIZE, PU_STATIC, NULL);
+    if (!savebuf) {
+        fatal_error("%s() : savebuf == NULL\n", __func__);
+    }
+    savepos = 0;
+}
+
+void SV_EndSave (char *filename)
+{
+    SV_WriteByte(SAVE_GAME_TERMINATOR);
+    SV_Open(filename);
+    d_write(SaveGameFP, savebuf, savepos);
+    SV_Close(filename);
+    Z_Free(savebuf);
+    savebuf = NULL;
+    savepos = 0;
+}
+
 
 void SV_Write(void *buffer, int size)
 {
-    fwrite(buffer, size, 1, SaveGameFP);
+    byte *buf = savebuf + savepos;
+
+    if ((savepos + size) >= SV_SAVECACHE_SIZE) {
+        fatal_error("%s() : try to write more bytes than allocated : %d > %d\n",
+            __func__, savepos + size, SV_SAVECACHE_SIZE);
+    }
+
+    H_memcpy(buf, buffer, size);
+    savepos += size;
 }
 
 void SV_WriteByte(byte val)
@@ -137,7 +170,7 @@ void SV_WritePtr(const void *ptr)
 
 void SV_Read(void *buffer, int size)
 {
-    int retval = fread(buffer, 1, size, SaveGameFP);
+    int retval = d_read(SaveGameFP, buffer, size);
     if (retval != size)
     {
         I_Error("Incomplete read in SV_Read: Expected %d, got %d bytes",

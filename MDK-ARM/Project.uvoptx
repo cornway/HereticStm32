@@ -150,9 +150,25 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
+          <LineNumber>118</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134398092</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\heretic\p_saveg.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\../heretic/p_saveg.c\118</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
           <LineNumber>81</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134304248</Address>
+          <Address>134303120</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -162,6 +178,22 @@
           <Filename>../Src/stm32f7xx_it.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\Project\../Src/stm32f7xx_it.c\81</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>72</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134433940</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\common\dev_io.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\../common/dev_io.c\72</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -174,6 +206,26 @@
           <count>1</count>
           <WinNumber>1</WinNumber>
           <ItemText>playerstarts</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>SaveGameFP</ItemText>
+        </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>layer_addr</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>SaveGameFP</ItemText>
+        </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>sys_handles</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -880,7 +932,7 @@
 
   <Group>
     <GroupName>Drivers/BSP/STM32F769I_Discovery</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1132,7 +1184,7 @@
 
   <Group>
     <GroupName>common</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1772,7 +1824,7 @@
 
   <Group>
     <GroupName>heretic</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

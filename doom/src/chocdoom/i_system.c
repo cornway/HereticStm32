@@ -393,7 +393,12 @@ void I_Error (char *error, ...)
     }
 #endif
 #else /*0*/
-    for (;;) {}
+    va_list argptr;
+
+    va_start(argptr, error);
+    dvprintf(error, argptr);
+    va_end(argptr);
+    fatal_error("exiting\n");
 #endif /**/
 }
 

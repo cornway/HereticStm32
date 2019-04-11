@@ -261,7 +261,11 @@ static int G_NextWeapon(int direction)
     do
     {
         i += direction;
-        i = (i + arrlen(weapon_order_table)) % arrlen(weapon_order_table);
+        if (i < 0) {
+            i = arrlen(weapon_order_table);
+        } else if (i >= arrlen(weapon_order_table)) {
+            i = 0;
+        }
     } while (i != start_i && !WeaponSelectable(weapon_order_table[i].weapon));
 
     return weapon_order_table[i].weapon_num;
@@ -1491,7 +1495,7 @@ void G_DoLoadGame(void)
 
     SV_OpenRead(savename);
 
-    free(savename);
+    Sys_Free(savename);
     savename = NULL;
 
     // Skip the description field
@@ -1531,6 +1535,7 @@ void G_DoLoadGame(void)
     {                           // Missing savegame termination marker
         I_Error("Bad savegame");
     }
+    SV_Close(savename);
 }
 
 
@@ -2047,7 +2052,8 @@ void G_DoSaveGame(void)
 
     description = savedescription;
 
-    SV_Open(filename);
+    SV_BeginSave(filename);
+
     SV_Write(description, SAVESTRINGSIZE);
     memset(verString, 0, sizeof(verString));
     DEH_snprintf(verString, VERSIONSIZE, "version %i", HERETIC_VERSION);
@@ -2066,12 +2072,13 @@ void G_DoSaveGame(void)
     P_ArchiveWorld();
     P_ArchiveThinkers();
     P_ArchiveSpecials();
-    SV_Close(filename);
+
+    SV_EndSave(filename);
 
     gameaction = ga_nothing;
     savedescription[0] = 0;
     P_SetMessage(&players[consoleplayer], DEH_String(TXT_GAMESAVED), true);
 
-    free(filename);
+    Sys_Free(filename);
 }
 

@@ -60,8 +60,6 @@
 #include "d_iwad.h"
 #include "p_saveg.h"
 
-extern int *joy_extrafreeze;
-
 boolean game_saved_in_ram = false;
 boolean p_saveg_use_ram = false;
 char saveg_level_name[80 + 1];
@@ -2192,7 +2190,6 @@ void M_Init (void)
 {
     currentMenu = &MainDef;
     menuactive = 0;
-    joy_extrafreeze = &menuactive;
     itemOn = currentMenu->lastOn;
     whichSkull = 0;
     skullAnimCounter = 10;

@@ -120,6 +120,8 @@ void MN_LoadSlotText(void);
 extern int detailLevel;
 extern int screenblocks;
 
+extern int *joy_extrafreeze;
+
 // Public Data
 
 boolean	devparm;
@@ -301,6 +303,7 @@ void MN_Init(void)
 {
     InitFonts();
     MenuActive = false;
+    joy_extrafreeze = &MenuActive;
     messageson = true;
     SkullBaseLump = W_GetNumForName(DEH_String("M_SKL00"));
 
@@ -637,7 +640,7 @@ static void DrawSaveMenu(void)
 
 void MN_LoadSlotText(void)
 {
-    FILE *fp;
+    int fp;
     int i;
     char *filename;
 
@@ -645,8 +648,8 @@ void MN_LoadSlotText(void)
     {
         int retval;
         filename = SV_Filename(i);
-        fp = fopen(filename, "rb+");
-	free(filename);
+        d_open(filename, &fp, "r");
+        Sys_Free(filename);
 
         if (!fp)
         {
@@ -654,8 +657,8 @@ void MN_LoadSlotText(void)
             SlotStatus[i] = 0;
             continue;
         }
-        retval = fread(&SlotText[i], 1, SLOTTEXTLEN, fp);
-        fclose(fp);
+        retval = d_read(fp, &SlotText[i], SLOTTEXTLEN);
+        d_close(fp);
         SlotStatus[i] = retval == SLOTTEXTLEN;
     }
     slottextloaded = true;
@@ -825,7 +828,7 @@ static boolean SCLoadGame(int option)
 
     filename = SV_Filename(option);
     G_LoadGame(filename);
-    free(filename);
+    Sys_Free(filename);
 
     MN_DeactivateMenu();
     BorderNeedRefresh = true;

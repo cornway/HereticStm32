@@ -784,7 +784,6 @@ void D_DoomMain(void)
     //
     // Disable monsters.
     //
-
     nomonsters = M_ParmExists("-nomonsters");
 
     //!
