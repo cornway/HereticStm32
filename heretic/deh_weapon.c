@@ -29,6 +29,8 @@
 #include "deh_mapping.h"
 #include "deh_htic.h"
 
+#ifdef ORIGCODE
+
 DEH_BEGIN_MAPPING(weapon_mapping, weaponinfo_t)
   DEH_MAPPING("Ammo type",        ammo)
   DEH_MAPPING("Deselect frame",   upstate)
@@ -38,6 +40,8 @@ DEH_BEGIN_MAPPING(weapon_mapping, weaponinfo_t)
   DEH_MAPPING("Firing frame",     holdatkstate)
   DEH_MAPPING("Unknown frame",    flashstate)
 DEH_END_MAPPING
+
+#endif
 
 static void *DEH_WeaponStart(deh_context_t *context, char *line)
 {
@@ -69,6 +73,7 @@ static void *DEH_WeaponStart(deh_context_t *context, char *line)
 
 static void DEH_WeaponParseLine(deh_context_t *context, char *line, void *tag)
 {
+#ifdef ORIGCODE
     char *variable_name, *value;
     weaponinfo_t *weapon;
     int ivalue;
@@ -77,7 +82,7 @@ static void DEH_WeaponParseLine(deh_context_t *context, char *line, void *tag)
         return;
 
     weapon = (weaponinfo_t *) tag;
-#ifdef ORIGCODE
+
     if (!DEH_ParseAssignment(line, &variable_name, &value))
     {
         // Failed to parse

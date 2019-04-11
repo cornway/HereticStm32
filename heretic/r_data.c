@@ -25,6 +25,7 @@
 #include "r_local.h"
 #include "p_local.h"
 #include "arch.h"
+#include "debug.h"
 
 extern void CheckAbortStartup(void);
 
@@ -302,7 +303,7 @@ void R_InitTextures(void)
     mappatch_t *mpatch;
     texpatch_t *patch;
     int i, j;
-    int *maptex, *maptex2, *maptex1;
+    int *maptex, *maptex2;
     char name[9], *names, *name_p;
     int *patchlookup;
     int totalwidth;
@@ -333,7 +334,7 @@ void R_InitTextures(void)
 //
 // load the map texture definitions from textures.lmp
 //
-    maptex = maptex1 = W_CacheLumpName((char *)texture1, PU_STATIC);
+    maptex = W_CacheLumpName((char *)texture1, PU_STATIC);
     numtextures1 = LONG(*maptex);
     maxoff = W_LumpLength(W_GetNumForName((char *)texture1));
     directory = maptex + 1;

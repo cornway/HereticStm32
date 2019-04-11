@@ -28,6 +28,8 @@
 
 #include "info.h"
 
+#ifdef ORIGCODE
+
 DEH_BEGIN_MAPPING(thing_mapping, mobjinfo_t)
   DEH_MAPPING("ID #",                doomednum)
   DEH_MAPPING("Initial frame",       spawnstate)
@@ -54,6 +56,7 @@ DEH_BEGIN_MAPPING(thing_mapping, mobjinfo_t)
   DEH_MAPPING("Bits 1",              flags)
   DEH_MAPPING("Bits 2",              flags2)
 DEH_END_MAPPING
+#endif
 
 static void *DEH_ThingStart(deh_context_t *context, char *line)
 {
@@ -85,6 +88,7 @@ static void *DEH_ThingStart(deh_context_t *context, char *line)
 
 static void DEH_ThingParseLine(deh_context_t *context, char *line, void *tag)
 {
+#ifdef ORIGCODE
     mobjinfo_t *mobj;
     char *variable_name, *value;
     int ivalue;
@@ -95,7 +99,7 @@ static void DEH_ThingParseLine(deh_context_t *context, char *line, void *tag)
     mobj = (mobjinfo_t *) tag;
 
     // Parse the assignment
-#ifdef ORIGCODE
+
     if (!DEH_ParseAssignment(line, &variable_name, &value))
     {
         // Failed to parse

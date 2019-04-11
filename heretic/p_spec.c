@@ -569,7 +569,6 @@ void P_CrossSpecialLine(int linenum, int side, mobj_t * thing)
                 break;
             default:
                 return;
-                break;
         }
     }
     switch (line->special)
@@ -812,7 +811,6 @@ void P_ShootSpecialLine(mobj_t * thing, line_t * line)
                 break;
             default:
                 return;
-                break;
         }
     }
     switch (line->special)

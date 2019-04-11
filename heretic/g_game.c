@@ -32,6 +32,8 @@
 #include "s_sound.h"
 #include "v_video.h"
 
+extern void SV_BeginSave (char *filename);
+extern void SV_EndSave (char *filename);
 // Macros
 
 #define AM_STARTKEY     9
@@ -294,7 +296,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     boolean strafe, bstrafe;
     int speed, tspeed, lspeed;
     int forward, side;
-    int look, arti;
+    int look;
     int flyheight;
 
     extern boolean noartiskip;
@@ -316,7 +318,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
 
     // haleyjd: removed externdriver crap
     
-    forward = side = look = arti = flyheight = 0;
+    forward = side = look = flyheight = 0;
 
 //
 // use two stage accelerative turning on the keyboard and joystick
@@ -704,7 +706,7 @@ void G_DoLoadLevel(void)
         P_SetMessage(&players[consoleplayer], "PRESS ESCAPE TO QUIT.", false);
     }
 }
-
+#ifdef ORIGCODE
 static void SetJoyButtons(unsigned int buttons_mask)
 {
     int i;
@@ -758,7 +760,7 @@ static void SetMouseButtons(unsigned int buttons_mask)
         mousebuttons[i] = button_on;
     }
 }
-
+#endif
 /*
 ===============================================================================
 =
@@ -1160,7 +1162,7 @@ void G_PlayerFinishLevel(int player)
 //      memset(p->inventory, 0, sizeof(p->inventory));
     if (p->chickenTics)
     {
-        p->readyweapon = p->mo->special1.i;       // Restore weapon
+        p->readyweapon = (weapontype_t)p->mo->special1.i;       // Restore weapon
         p->chickenTics = 0;
     }
     p->messageTics = 0;
@@ -1509,7 +1511,7 @@ void G_DoLoadGame(void)
     {                           // Bad version
         return;
     }
-    gameskill = SV_ReadByte();
+    gameskill = (skill_t)SV_ReadByte();
     gameepisode = SV_ReadByte();
     gamemap = SV_ReadByte();
     for (i = 0; i < MAXPLAYERS; i++)
@@ -1894,7 +1896,7 @@ void G_DoPlayDemo(void)
     lumpnum = W_GetNumForName((char *)defdemoname);
     demobuffer = W_CacheLumpNum(lumpnum, PU_STATIC);
     demo_p = demobuffer;
-    skill = *demo_p++;
+    skill = (skill_t)*demo_p++;
     episode = *demo_p++;
     map = *demo_p++;
 
@@ -1942,7 +1944,7 @@ void G_TimeDemo(char *name)
     int episode, map, i;
 
     demobuffer = demo_p = W_CacheLumpName(name, PU_STATIC);
-    skill = *demo_p++;
+    skill = (skill_t)*demo_p++;
     episode = *demo_p++;
     map = *demo_p++;
 

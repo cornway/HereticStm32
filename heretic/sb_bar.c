@@ -1198,7 +1198,7 @@ static void CheatArtifact3Func(player_t * player, Cheat_t * cheat)
             }
             for (j = 0; j < 16; j++)
             {
-                P_GiveArtifact(player, i, NULL);
+                P_GiveArtifact(player, (artitype_t)i, NULL);
             }
         }
         P_SetMessage(player, DEH_String(TXT_CHEATARTIFACTS3), false);
@@ -1214,7 +1214,7 @@ static void CheatArtifact3Func(player_t * player, Cheat_t * cheat)
         }
         for (i = 0; i < count; i++)
         {
-            P_GiveArtifact(player, type, NULL);
+            P_GiveArtifact(player, (artitype_t)type, NULL);
         }
         P_SetMessage(player, DEH_String(TXT_CHEATARTIFACTS3), false);
     }

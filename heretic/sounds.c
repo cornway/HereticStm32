@@ -20,7 +20,7 @@
 #include "doomdef.h"
 #include "i_sound.h"
 #include "sounds.h"
-
+#include "I_system.h"
 // Music info
 
 #define MUSIC(name) \
@@ -248,15 +248,11 @@ sfxinfo_t S_sfx[] = {
     SOUND("amb11",   1,   0)
 };
 
-static int snd_SfxVolume = 50;
-
 void S_SetSfxVolume(int volume)
 {
     if (volume < 0 || volume > 127)
     {
         I_Error("Attempt to set sfx volume at %d", volume);
     }
-
-    snd_SfxVolume = volume;
 }
 

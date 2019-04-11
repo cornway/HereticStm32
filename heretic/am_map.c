@@ -22,6 +22,7 @@
 #include "deh_str.h"
 #include "i_timer.h"
 #include "i_video.h"
+#include "i_system.h"
 #include "m_controls.h"
 #include "p_local.h"
 #include "am_map.h"

@@ -28,6 +28,7 @@
 
 #include "sounds.h"
 
+#ifdef ORIGCODE
 DEH_BEGIN_MAPPING(sound_mapping, sfxinfo_t)
     DEH_MAPPING_STRING("Name", name)
     DEH_UNSUPPORTED_MAPPING("Special")
@@ -37,6 +38,7 @@ DEH_BEGIN_MAPPING(sound_mapping, sfxinfo_t)
     DEH_UNSUPPORTED_MAPPING("Unknown 3")
     DEH_MAPPING("One/Two", numchannels)
 DEH_END_MAPPING
+#endif
 
 static void *DEH_SoundStart(deh_context_t *context, char *line)
 {
@@ -65,16 +67,16 @@ static void *DEH_SoundStart(deh_context_t *context, char *line)
 
 static void DEH_SoundParseLine(deh_context_t *context, char *line, void *tag)
 {
+#ifdef ORIGCODE
     sfxinfo_t *sfx;
     char *variable_name, *value;
 
     if (tag == NULL)
        return;
-
     sfx = (sfxinfo_t *) tag;
 
     // Parse the assignment
-#ifdef ORIGCODE
+
     if (!DEH_ParseAssignment(line, &variable_name, &value))
     {
         // Failed to parse

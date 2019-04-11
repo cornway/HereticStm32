@@ -23,5 +23,7 @@
 #define HEAP_MALLOC_MARGIN          (0x1000)
 
 #define DEVIO_READONLY              (0)
+#define MAX_HANDLES                 (4)
+
 
 #endif /*__DEV_CONF_H__*/

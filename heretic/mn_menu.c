@@ -30,7 +30,7 @@
 #include "r_local.h"
 #include "s_sound.h"
 #include "v_video.h"
-
+#include "dev_io.h"
 // Macros
 
 #define LEFT_DIR 0
@@ -853,16 +853,18 @@ static boolean SCSaveGame(int option)
 
     if (!FileMenuKeySteal)
     {
+#ifdef ORIGCODE
         int x, y;
 
-        FileMenuKeySteal = true;
+        
         // We need to activate the text input interface to type the save
         // game name:
         x = SaveMenu.x + 1;
         y = SaveMenu.y + 1 + option * ITEM_HEIGHT;
-#ifdef ORIGCODE
+
         I_StartTextInput(x, y, x + 190, y + ITEM_HEIGHT - 2);
 #endif
+        FileMenuKeySteal = true;
         M_StringCopy(oldSlotText, SlotText[option], sizeof(oldSlotText));
         ptr = SlotText[option];
         while (*ptr)
@@ -924,7 +926,7 @@ static boolean SCEpisode(int option)
 
 static boolean SCSkill(int option)
 {
-    G_DeferedInitNew(option, MenuEpisode, 1);
+    G_DeferedInitNew((skill_t)option, MenuEpisode, 1);
     MN_DeactivateMenu();
     return true;
 }

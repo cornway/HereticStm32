@@ -351,7 +351,7 @@ void P_NewChaseDir(mobj_t * actor)
     if (!actor->target)
         I_Error("P_NewChaseDir: called with no target");
 
-    olddir = actor->movedir;
+    olddir = (dirtype_t)actor->movedir;
     turnaround = opposite[olddir];
 
     deltax = actor->target->x - actor->x;
@@ -530,6 +530,7 @@ boolean P_LookForPlayers(mobj_t * actor, boolean allaround)
     player_t *player;
     angle_t an;
     fixed_t dist;
+    boolean ret = false;
 
     if (!netgame && players[0].health <= 0)
     {                           // Single player game and player is dead, look for monsters
@@ -571,17 +572,17 @@ boolean P_LookForPlayers(mobj_t * actor, boolean allaround)
                 && P_AproxDistance(player->mo->momx, player->mo->momy)
                 < 5 * FRACUNIT)
             {                   // Player is sneaking - can't detect
-                return (false);
+                break;
             }
             if (P_Random() < 225)
             {                   // Player isn't sneaking, but still didn't detect
-                return (false);
+                break;
             }
         }
         actor->target = player->mo;
-        return (true);
+        ret = false;
     }
-    return (false);
+    return ret;
 }
 
 /*
@@ -657,7 +658,7 @@ void A_Look(mobj_t * actor)
             S_StartSound(actor, sound);
         }
     }
-    P_SetMobjState(actor, actor->info->seestate);
+    P_SetMobjState(actor, (statenum_t)actor->info->seestate);
 }
 
 
@@ -700,7 +701,7 @@ void A_Chase(mobj_t * actor)
 //
     if (actor->movedir < 8)
     {
-        actor->angle &= (7 << 29);
+        actor->angle &= (7U << 29);
         delta = actor->angle - (actor->movedir << 29);
         if (delta > 0)
         {
@@ -718,7 +719,7 @@ void A_Chase(mobj_t * actor)
         {                       // got a new target
             return;
         }
-        P_SetMobjState(actor, actor->info->spawnstate);
+        P_SetMobjState(actor, (statenum_t)actor->info->spawnstate);
         return;
     }
 
@@ -740,7 +741,7 @@ void A_Chase(mobj_t * actor)
     {
         if (actor->info->attacksound)
             S_StartSound(actor, actor->info->attacksound);
-        P_SetMobjState(actor, actor->info->meleestate);
+        P_SetMobjState(actor, (statenum_t)actor->info->meleestate);
         return;
     }
 
@@ -753,7 +754,7 @@ void A_Chase(mobj_t * actor)
             goto nomissile;
         if (!P_CheckMissileRange(actor))
             goto nomissile;
-        P_SetMobjState(actor, actor->info->missilestate);
+        P_SetMobjState(actor, (statenum_t)actor->info->missilestate);
         actor->flags |= MF_JUSTATTACKED;
         return;
     }
@@ -959,7 +960,7 @@ void A_ImpMsAttack(mobj_t * actor)
 
     if (!actor->target || P_Random() > 64)
     {
-        P_SetMobjState(actor, actor->info->seestate);
+        P_SetMobjState(actor, (statenum_t)actor->info->seestate);
         return;
     }
     dest = actor->target;
@@ -1069,7 +1070,7 @@ boolean P_UpdateChicken(mobj_t * actor, int tics)
     {
         return (false);
     }
-    moType = actor->special2.i;
+    moType = (mobjtype_t)actor->special2.i;
     x = actor->x;
     y = actor->y;
     z = actor->z;
@@ -1190,7 +1191,7 @@ void A_Feathers(mobj_t * actor)
         mo->momx = P_SubRandom() << 8;
         mo->momy = P_SubRandom() << 8;
         mo->momz = FRACUNIT + (P_Random() << 9);
-        P_SetMobjState(mo, S_FEATHER1 + (P_Random() & 7));
+        P_SetMobjState(mo, (statenum_t)(S_FEATHER1 + (P_Random() & 7)));
     }
 }
 
@@ -1508,7 +1509,7 @@ void A_GenWizard(mobj_t * actor)
         return;
     }
     actor->momx = actor->momy = actor->momz = 0;
-    P_SetMobjState(actor, mobjinfo[actor->type].deathstate);
+    P_SetMobjState(actor, (statenum_t)mobjinfo[actor->type].deathstate);
     actor->flags &= ~MF_MISSILE;
     fog = P_SpawnMobj(actor->x, actor->y, actor->z, MT_TFOG);
     S_StartSound(fog, sfx_telept);
@@ -1673,7 +1674,7 @@ void A_MinotaurCharge(mobj_t * actor)
     else
     {
         actor->flags &= ~MF_SKULLFLY;
-        P_SetMobjState(actor, actor->info->seestate);
+        P_SetMobjState(actor, (statenum_t)actor->info->seestate);
     }
 }
 
@@ -1891,7 +1892,7 @@ void A_WhirlwindSeek(mobj_t * actor)
     if (actor->health < 0)
     {
         actor->momx = actor->momy = actor->momz = 0;
-        P_SetMobjState(actor, mobjinfo[actor->type].deathstate);
+        P_SetMobjState(actor, (statenum_t)mobjinfo[actor->type].deathstate);
         actor->flags &= ~MF_MISSILE;
         return;
     }
@@ -2351,7 +2352,7 @@ void A_BossDeath(mobj_t * actor)
         MT_SORCERER2,
         MT_HEAD,
         MT_MINOTAUR,
-        -1
+        (mobjtype_t)-1
     };
 
     if (gamemap != 8)
