@@ -21,7 +21,9 @@
 #include <string.h>
 
 #include <stdarg.h>
-#include "debug.h"
+#include <heap.h>
+#include <debug.h>
+#include <bsp_cmd.h>
 
 
 #ifdef _WIN32
@@ -49,6 +51,9 @@
 
 #include "w_wad.h"
 #include "z_zone.h"
+#include <bsp_sys.h>
+#include "misc_utils.h"
+
 
 #ifdef __MACOSX__
 #include <CoreFoundation/CFUserNotification.h>
@@ -119,7 +124,7 @@ static byte *AutoAllocMemory(int *size, int default_ram, int min_ram)
         *size = default_ram;
 
         //zonemem = (byte *)malloc(*size);
-        zonemem = (byte *)Sys_AllocShared(size);
+        zonemem = (byte *)heap_malloc(*size);
         // Failed to allocate?  Reduce zone size until we reach a size
         // that is acceptable.
 
@@ -153,7 +158,8 @@ byte *I_ZoneBase (int *size)
     }
     else
     {
-        default_ram = Sys_AllocBytesLeft();
+        default_ram = heap_avail() - (1024 * 64);
+        default_ram = default_ram - (default_ram & ((1024 * 64) - 1));
         min_ram = MIN_RAM;
     }
 
@@ -162,9 +168,9 @@ byte *I_ZoneBase (int *size)
     return zonemem;
 }
 
-void I_PrintBanner(char *msg)
+void I_PrintBanner(const char *msg)
 {
-    /*TODO*/
+    dprintf(msg);
 }
 
 void I_PrintDivider(void)
@@ -172,7 +178,7 @@ void I_PrintDivider(void)
     /*TODO*/
 }
 
-void I_PrintStartupBanner(char *gamedescription)
+void I_PrintStartupBanner(const char *gamedescription)
 {
     I_PrintDivider();
     I_PrintBanner(gamedescription);
@@ -227,6 +233,7 @@ void I_BindVariables(void)
 void I_Quit (void)
 {
     atexit_listentry_t *entry;
+    char buf[32];
 
     // Run through all exit functions
  
@@ -238,11 +245,8 @@ void I_Quit (void)
         entry = entry->next;
     }
 
-#if ORIGCODE
-    SDL_Quit();
-
-    exit(0);
-#endif
+    cmd_execute("reset", 0);
+    assert(0);
 }
 
 #if !defined(_WIN32) && !defined(__MACOSX__)
@@ -288,18 +292,16 @@ static int ZenityErrorBox(char *message)
 
 void I_Error (char *error, ...)
 {
-#if 0
     char msgbuf[512];
     va_list argptr;
     atexit_listentry_t *entry;
     boolean exit_gui_popup;
+    static boolean already_quitting = false;
 
     if (already_quitting)
     {
-        //d_fprintf(stderr, "Warning: recursive call to I_Error detected.\n");
-#if ORIGCODE
-        exit(-1);
-#endif
+        dprintf("Warning: recursive call to I_Error detected.\n");
+        assert(0);
     }
     else
     {
@@ -308,7 +310,7 @@ void I_Error (char *error, ...)
 
     // Message first.
     va_start(argptr, error);
-    //fprintf(stderr, "\nError: ");
+    dvprintf(error, argptr);
     va_end(argptr);
 
     // Write a copy of the message into buffer.
@@ -376,30 +378,14 @@ void I_Error (char *error, ...)
                                         message,
                                         NULL);
     }
-#else
+#elif !defined(STM32_SDK)
     {
         ZenityErrorBox(msgbuf);
     }
 #endif
 
     // abort();
-#if ORIGCODE
-    SDL_Quit();
-
-    exit(-1);
-#else
-    while (true)
-    {
-    }
-#endif
-#else /*0*/
-    va_list argptr;
-
-    va_start(argptr, error);
-    dvprintf(error, argptr);
-    va_end(argptr);
-    fatal_error("exiting\n");
-#endif /**/
+    assert(0);
 }
 
 //
@@ -507,25 +493,4 @@ boolean I_GetMemoryValue(unsigned int offset, void *value, int size)
 
     return false;
 }
-
-char *strdup (const char *str)
-{
-    int sz = strlen(str);
-    char *ret = (char *)Sys_Malloc(sz + 1);
-    if (!ret) return NULL;
-    strcpy(ret, str);
-    ret[sz] = '\0';
-    return ret;
-}
-
-#ifndef HAVE_STRUPR
-char *strupr(char *str)
-{
-  char *s;
-
-  for(s = str; *s; s++)
-    *s = toupper((unsigned char)*s);
-  return str;
-}
-#endif /*HAVE_STRUPR*/
 

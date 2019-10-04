@@ -517,10 +517,10 @@ void P_LoadBlockMap (int lump)
 
     // Swap all short integers to native byte ordering.
   
-    for (i=0; i<count; i++)
-    {
+    //for (i=0; i<count; i++)
+    //{
 	//blockmaplump[i] = ReadLe16(&blockmaplump[i]);
-    }
+    //}
 		
     // Read the header
 
@@ -801,7 +801,7 @@ P_SetupLevel
     P_GroupLines ();
     P_LoadReject (lumpnum+ML_REJECT);
 
-#if (GFX_COLOR_MODE != GFX_COLOR_MODE_CLUT)
+#if 0/*(GFX_COLOR_MODE != GFX_COLOR_MODE_CLUT)*/
     ST_Setup();
 #endif
     bodyqueslot = 0;

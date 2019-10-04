@@ -45,12 +45,14 @@
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
-#include "dev_io.h"
+#include <misc_utils.h>
+#include <dev_io.h>
+#include <heap.h>
 //
 // Create a directory
 //
 
-void M_MakeDirectory(char *path)
+void M_MakeDirectory(const char *path)
 {
 #ifdef _WIN32
     mkdir(path);
@@ -59,33 +61,41 @@ void M_MakeDirectory(char *path)
     mkdir(path, 0755);
 #else
     char* path_mod;
-    int len;
+    int len, dir;
 
     // remove trailing slash
     len = strlen (path);
 
-    path_mod = (char*)Sys_Malloc (len + 1);
+    path_mod = (char*)heap_malloc (len + 1);
 
-    strncpy (path_mod, path, len);
+    if (path_mod ==  NULL) {
+        return;
+    }
+    snprintf(path_mod, len + 1, "%s", path);
 
     if (path_mod[len - 1] == '/')
     {
-        path_mod[len - 1] = 0;
+    	path_mod[len - 1] = 0;
     }
-
-    if (d_mkdir (path_mod) < 0)
+    dir = d_opendir(path_mod);
+    if (dir >= 0) {
+        d_closedir(dir);
+    } else {
+        dir = d_mkdir(path_mod);
+    }
+    if (dir < 0)
     {
-        I_Error ("M_MakeDirectory: path = '%s', path_mod = '%s'", path, path_mod);
+    	I_Error ("M_MakeDirectory: path = '%s', path_mod = '%s'", path, path_mod);
     }
 
-    Sys_Free (path_mod);
+    heap_free (path_mod);
 #endif
 #endif
 }
 
 // Check if a file exists
 
-boolean M_FileExists(char *filename)
+boolean M_FileExists(const char *filename)
 {
 #if ORIGCODE
     FILE *fstream;
@@ -391,7 +401,7 @@ char *M_StringReplace(const char *haystack, const char *needle,
 
     // Construct new string.
 
-    result = Sys_Malloc(result_len);
+    result = heap_malloc(result_len);
     if (result == NULL)
     {
         I_Error("M_StringReplace: Failed to allocate new string");
@@ -493,7 +503,7 @@ char *M_StringJoin(const char *s, ...)
     }
     va_end(args);
 
-    result = Sys_Malloc(result_len);
+    result = (char *)heap_malloc(result_len);
 
     if (result == NULL)
     {
@@ -571,11 +581,11 @@ char *M_OEMToUTF8(const char *oem)
     wchar_t *tmp;
     char *result;
 
-    tmp = Sys_Malloc(len * sizeof(wchar_t));
+    tmp = heap_malloc(len * sizeof(wchar_t));
     MultiByteToWideChar(CP_OEMCP, 0, oem, len, tmp, len);
-    result = Sys_Malloc(len * 4);
+    result = heap_malloc(len * 4);
     WideCharToMultiByte(CP_UTF8, 0, tmp, len, result, len * 4, NULL, NULL);
-    Sys_Free(tmp);
+    heap_free(tmp);
 
     return result;
 }

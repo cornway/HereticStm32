@@ -35,6 +35,7 @@
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
+#include <bsp_sys.h>
 
 #include "config.h"
 #ifdef HAVE_LIBPNG
@@ -46,7 +47,7 @@
 // The screen buffer; this is modified to draw things to the screen
 
 #if IVID_IRAM
-pix_t I_VideoBuffer_static[D_SCREEN_PIX_CNT];
+pix_t I_VideoBuffer_static[SCREENWIDTH * SCREENHEIGHT * sizeof(pix_t)];
 #endif
 pix_t *I_VideoBuffer = NULL;
 
@@ -287,7 +288,9 @@ void V_DrawPatchFlipped(int x, int y, patch_t *patch)
 
 void V_DrawPatchDirect(int x, int y, patch_t *patch)
 {
+    profiler_enter();
     V_DrawPatch(x, y, patch); 
+    profiler_exit();
 } 
 
 //

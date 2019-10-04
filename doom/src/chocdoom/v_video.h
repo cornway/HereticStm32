@@ -22,9 +22,11 @@
 #ifndef __V_VIDEO__
 #define __V_VIDEO__
 
+#include <stdint.h>
 #include "doomtype.h"
 
 // Needed because we are refering to patches.
+#include <i_video.h>
 #include "v_patch.h"
 #include "gfx.h"
 //
@@ -39,16 +41,14 @@ extern int dirtybox[4];
 extern byte *tinttable;
 
 
-extern pal_t *p_palette;
+extern void *p_palette;
 
-#if (GFX_COLOR_MODE == GFX_COLOR_MODE_RGB565)
+/*FIXME : !!!*/
+#if 0/*(COLOR_MODE_KEY == GFX_COLOR_MODE_RGB565)*/
 #define pixel(p) (p_palette[p])
 #else
 #define pixel(p) (p)
 #endif
-
-#define D_SCREEN_PIX_CNT (SCREENHEIGHT * SCREENWIDTH)
-#define D_SCREEN_BYTE_CNT (D_SCREEN_PIX_CNT * sizeof(pix_t))
 
 static inline void
 v_copy_line (pix_t *dest, byte *src, size_t cnt)

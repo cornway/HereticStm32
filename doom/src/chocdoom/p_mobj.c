@@ -17,7 +17,7 @@
 //
 
 #include <stdio.h>
-
+#include <misc_utils.h>
 #include "i_system.h"
 #include "z_zone.h"
 #include "m_random.h"
@@ -576,7 +576,7 @@ void P_RemoveMobj (mobj_t* mobj)
 	&& (mobj->type != MT_INV)
 	&& (mobj->type != MT_INS))
     {
-	itemrespawnque[iquehead] = mobj->spawnpoint;
+    d_memcpy(&itemrespawnque[iquehead], &mobj->spawnpoint, sizeof(mobj->spawnpoint));
 	itemrespawntime[iquehead] = leveltime;
 	iquehead = (iquehead+1)&(ITEMQUESIZE-1);
 
@@ -750,7 +750,7 @@ void P_SpawnMapThing (mapthing_t* mthing)
     {
 	if (deathmatch_p < &deathmatchstarts[10])
 	{
-	    memcpy (deathmatch_p, mthing, sizeof(*mthing));
+	    d_memcpy (deathmatch_p, mthing, sizeof(*mthing));
 	    deathmatch_p++;
 	}
 	return;
@@ -768,7 +768,7 @@ void P_SpawnMapThing (mapthing_t* mthing)
     if (mthing->type <= 4)
     {
 	// save spots for respawning in network games
-	playerstarts[mthing->type-1] = *mthing;
+	d_memcpy(&playerstarts[READ_LE_I16(mthing->type)-1], mthing, sizeof(*mthing));
 	if (!deathmatch)
 	    P_SpawnPlayer (mthing);
 

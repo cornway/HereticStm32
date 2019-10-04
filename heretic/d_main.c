@@ -44,7 +44,10 @@
 #include "w_main.h"
 #include "v_video.h"
 #include "debug.h"
+#include <misc_utils.h>
 #include "dev_io.h"
+#include <bsp_sys.h>
+#include <audio_main.h>
 
 #ifndef ORIGCODE
 #define M_BindIntVariable(x...)
@@ -274,7 +277,7 @@ void D_DoomLoop(void)
         // Move positional sounds
         S_UpdateSounds(players[consoleplayer].mo);
         D_Display();
-        dev_tickle();
+        bsp_tickle();
     }
 }
 
@@ -445,7 +448,7 @@ void D_CheckRecordFrom(void)
 
     G_RecordDemo(gameskill, 1, gameepisode, gamemap, myargv[p + 2]);
     D_DoomLoop();               // never returns
-    Sys_Free(filename);
+    heap_free(filename);
 }
 
 /*
@@ -777,6 +780,16 @@ void D_DoomMain(void)
     I_PrintBanner(PACKAGE_STRING);
 
     I_AtExit(D_Endoom, false);
+    {
+        const char *vol = "64";
+        p = M_CheckParmWithArgs("-vol", 1);
+        if (p > 0)
+        {
+            vol = myargv[p + 1];
+        }
+        snprintf(file, sizeof(file), "samplerate=22050, volume=%s", vol);
+        audio_conf(file);
+    }
 
     //!
     // @category game
@@ -988,7 +1001,7 @@ void D_DoomMain(void)
 
     if (p)
     {
-        char *uc_filename = strdup(myargv[p + 1]);
+        char *uc_filename = d_strdup(myargv[p + 1]);
         M_ForceUppercase(uc_filename);
 
         // In Vanilla, the filename must be specified without .lmp,
@@ -1002,7 +1015,7 @@ void D_DoomMain(void)
             DEH_snprintf(file, sizeof(file), "%s.lmp", myargv[p + 1]);
         }
 
-        Sys_Free(uc_filename);
+        heap_free(uc_filename);
 
         if (D_AddFile(file))
         {
@@ -1183,7 +1196,7 @@ void D_DoomMain(void)
 
 	filename = SV_Filename(myargv[p + 1][0] - '0');
         G_LoadGame(filename);
-	Sys_Free(filename);
+	heap_free(filename);
     }
 
     // Check valid episode and map

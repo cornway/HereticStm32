@@ -74,12 +74,6 @@ typedef enum
     exe_strife_1_31  // Strife v1.31
 } GameVersion_t;
 
-typedef enum {
-    pkg_none = 0,
-    pkg_psx_final,
-    pkg_3d0_doom,
-} GameAltPackage_t;
-
 // Skill level.
 
 typedef enum
@@ -99,8 +93,6 @@ boolean D_ValidEpisodeMap(GameMission_t mission, GameMode_t mode,
 int D_GetNumEpisodes(GameMission_t mission, GameMode_t mode);
 boolean D_IsEpisodeMap(GameMission_t mission);
 char *D_GameMissionString(GameMission_t mission);
-
-extern GameAltPackage_t game_alt_pkg;
 
 #endif /* #ifndef __D_MODE__ */
 

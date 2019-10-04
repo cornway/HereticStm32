@@ -29,6 +29,8 @@
 #include "deh_htic.h"
 #include "deh_main.h"
 
+#include <heap.h>
+
 //
 // Ok, Greg, the action pointers thing was bad enough, but this really
 // takes the biscuit.  Why does HHE's text replacement address strings
@@ -777,7 +779,7 @@ static void *DEH_TextStart(deh_context_t *context, char *line)
         return NULL;
     }
 
-    repl_text = Sys_Malloc(repl_len + 1);
+    repl_text = heap_malloc(repl_len + 1);
 
     // read in the "to" text
 
@@ -823,7 +825,7 @@ static void *DEH_TextStart(deh_context_t *context, char *line)
     }
 
     // We must always free the replacement text.
-    Sys_Free(repl_text);
+    heap_free(repl_text);
 
     return NULL;
 }

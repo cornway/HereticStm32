@@ -26,8 +26,10 @@
 #include "z_zone.h"
 
 #include "deh_defs.h"
-#include "deh_io.h"
-#include "dev_io.h"
+#include <heap.h>
+#include <misc_utils.h>
+#include <dev_io.h>
+#include <debug.h>
 
 typedef enum
 {
@@ -98,7 +100,7 @@ deh_context_t *DEH_OpenFile(const char *filename)
 
     context->type = DEH_INPUT_FILE;
     context->stream = fstream;
-    context->filename = strdup(filename);
+    context->filename = d_strdup(filename);
 
     return context;
 }
@@ -120,7 +122,7 @@ deh_context_t *DEH_OpenLump(int lumpnum)
     context->input_buffer_len = W_LumpLength(lumpnum);
     context->input_buffer_pos = 0;
 
-    context->filename = Sys_Malloc(9);
+    context->filename = heap_malloc(9);
     M_StringCopy(context->filename, lumpinfo[lumpnum].name, 9);
 
     return context;
@@ -139,7 +141,7 @@ void DEH_CloseFile(deh_context_t *context)
         W_ReleaseLumpNum(context->lumpnum);
     }
 
-    Sys_Free(context->filename);
+    heap_free(context->filename);
     Z_Free(context->readbuffer);
     Z_Free(context);
 }

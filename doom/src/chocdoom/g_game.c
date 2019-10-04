@@ -72,7 +72,8 @@
 
 #include "g_game.h"
 
-
+#include "misc_utils.h"
+#include <dev_io.h>
 #define SAVEGAMESIZE	0x2c000
 
 void	G_ReadDemoTiccmd (ticcmd_t* cmd); 
@@ -263,7 +264,7 @@ boolean WeaponSelectable(weapontype_t weapon)
 static int G_NextWeapon(int direction)
 {
     weapontype_t weapon;
-    int i;
+    int start_i, i, max_i;
 
     // Find index in the table.
 
@@ -284,13 +285,24 @@ static int G_NextWeapon(int direction)
         }
     }
 
-    // Switch weapon.
-
+    // Switch weapon. Don't loop forever.
+    start_i = i;
+    max_i = arrlen(weapon_order_table);
     do
     {
-        i += direction;
-        i = (i + arrlen(weapon_order_table)) % arrlen(weapon_order_table);
-    } while (!WeaponSelectable(weapon_order_table[i].weapon));
+        if (direction < 0) {
+            if (i)
+                i--;
+            else {
+                i = max_i - 1;
+            }
+        } else {
+            i++;
+            if (i >= max_i) {
+                i = 0;
+            }
+        }
+    } while (i != start_i && !WeaponSelectable(weapon_order_table[i].weapon));
 
     return weapon_order_table[i].weapon;
 }
@@ -671,6 +683,7 @@ void G_Ticker (void)
 	  case ga_newgame: 
 	    G_DoNewGame ();
         S_Start ();
+        break;
 	  case ga_loadgame: 
 	    G_DoLoadGame ();
         S_Start ();
@@ -716,7 +729,7 @@ void G_Ticker (void)
 	{ 
 	    cmd = &players[i].cmd; 
 
-	    memcpy(cmd, &netcmds[i], sizeof(ticcmd_t));
+	    d_memcpy(cmd, &netcmds[i], sizeof(ticcmd_t));
 
 	    if (demoplayback) 
 		G_ReadDemoTiccmd (cmd); 
@@ -884,7 +897,7 @@ void G_PlayerReborn (int player)
     int		itemcount;
     int		secretcount; 
 	 
-    memcpy (frags,players[player].frags,sizeof(frags)); 
+    d_memcpy (frags,players[player].frags,sizeof(frags)); 
     killcount = players[player].killcount; 
     itemcount = players[player].itemcount; 
     secretcount = players[player].secretcount; 
@@ -892,7 +905,7 @@ void G_PlayerReborn (int player)
     p = &players[player]; 
     memset (p, 0, sizeof(*p)); 
  
-    memcpy (players[player].frags, frags, sizeof(players[player].frags)); 
+    d_memcpy (players[player].frags, frags, sizeof(players[player].frags)); 
     players[player].killcount = killcount; 
     players[player].itemcount = itemcount; 
     players[player].secretcount = secretcount; 
@@ -1281,7 +1294,7 @@ void G_DoCompleted (void)
 	wminfo.plyr[i].sitems = players[i].itemcount; 
 	wminfo.plyr[i].ssecret = players[i].secretcount; 
 	wminfo.plyr[i].stime = leveltime; 
-	memcpy (wminfo.plyr[i].frags, players[i].frags 
+	d_memcpy (wminfo.plyr[i].frags, players[i].frags 
 		, sizeof(wminfo.plyr[i].frags)); 
     } 
  
@@ -1352,7 +1365,6 @@ void G_LoadGame (char* name)
  
 #define VERSIONSIZE		16 
 
-#if 1
 void G_DoLoadGame (void) 
 {
     int savedleveltime;
@@ -1397,52 +1409,6 @@ void G_DoLoadGame (void)
     R_FillBackScreen (); 
 } 
 
-#else
-void G_DoLoadGame (void) 
-{
-    int savedleveltime;
-	 
-    gameaction = ga_nothing; 
-	 
-    if (f_open (&save_stream, savename, FA_OPEN_EXISTING | FA_READ) != FR_OK)
-    {
-    	return;
-    }
-
-    savegame_error = false;
-
-    if (!P_ReadSaveGameHeader())
-    {
-        f_close (&save_stream);
-        return;
-    }
-
-    savedleveltime = leveltime;
-    
-    // load a base level 
-    G_InitNew (gameskill, gameepisode, gamemap); 
- 
-    leveltime = savedleveltime;
-
-    // dearchive all the modifications
-    P_UnArchivePlayers (); 
-    P_UnArchiveWorld (); 
-    P_UnArchiveThinkers (); 
-    P_UnArchiveSpecials (); 
- 
-    if (!P_ReadSaveGameEOF())
-	I_Error ("Bad savegame");
-
-    f_close (&save_stream);
-    
-    if (setsizeneeded)
-    	R_ExecuteSetViewSize ();
-    
-    // draw the pattern into the back screen
-    R_FillBackScreen (); 
-} 
-#endif
-
 //
 // G_SaveGame
 // Called by the menu task.
@@ -1458,13 +1424,12 @@ G_SaveGame
     sendsave = true;
 }
 
-#if 1
 void G_DoSaveGame (void) 
 { 
     char *savegame_file;
     uint32_t save_size;
 
-    savegame_file = strupr (P_SaveGameFile(savegameslot));
+    savegame_file = d_strupr (P_SaveGameFile(savegameslot));
 
     P_SaveBegin();
 
@@ -1497,74 +1462,6 @@ void G_DoSaveGame (void)
     // draw the pattern into the back screen
     R_FillBackScreen ();	
 } 
-
-#else
-void G_DoSaveGame (void) 
-{ 
-    char *savegame_file;
-    char *temp_savegame_file;
-    FRESULT res;
-
-    temp_savegame_file = strupr (P_TempSaveGameFile());
-    savegame_file = strupr (P_SaveGameFile(savegameslot));
-
-    // Open the savegame file for writing.  We write to a temporary file
-    // and then rename it at the end if it was successfully written.
-    // This prevents an existing savegame from being overwritten by 
-    // a corrupted one, or if a savegame buffer overrun occurs.
-
-    if (f_open (&save_stream, temp_savegame_file, FA_CREATE_ALWAYS | FA_WRITE) != FR_OK)
-    {
-    	I_Error ("open err %s\n", temp_savegame_file);
-    }
-
-    savegame_error = false;
-
-    P_WriteSaveGameHeader(savedescription);
- 
-    P_ArchivePlayers (); 
-    P_ArchiveWorld (); 
-    P_ArchiveThinkers (); 
-    P_ArchiveSpecials (); 
-	 
-    P_WriteSaveGameEOF();
-	 
-    // Enforce the same savegame size limit as in Vanilla Doom, 
-    // except if the vanilla_savegame_limit setting is turned off.
-
-    if (vanilla_savegame_limit && f_tell (&save_stream) > SAVEGAMESIZE)
-    {
-        I_Error ("Savegame buffer overrun");
-    }
-    
-    // Finish up, close the savegame file.
-
-    f_close (&save_stream);
-
-    // Now rename the temporary savegame file to the actual savegame
-    // file, overwriting the old savegame if there was one there.
-
-    if (M_FileExists (savegame_file))
-    {
-    	f_unlink (savegame_file);
-    }
-
-    res = f_rename (temp_savegame_file, savegame_file);
-
-    if (res != FR_OK)
-    {
-    	I_Error ("Savegame not renamed, res = %i", res);
-    }
-    
-    gameaction = ga_nothing;
-    M_StringCopy(savedescription, "", sizeof(savedescription));
-
-    players[consoleplayer].message = DEH_String(GGSAVED);
-
-    // draw the pattern into the back screen
-    R_FillBackScreen ();	
-} 
-#endif
 
 //
 // G_InitNew

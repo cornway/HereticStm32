@@ -25,7 +25,7 @@
 #include "i_system.h"
 #include "m_misc.h"
 #include "m_argv.h"  // haleyjd 20110212: warning fix
-
+#include <debug.h>
 int		myargc;
 char**		myargv;
 
@@ -46,8 +46,14 @@ int M_CheckParmWithArgs(char *check, int num_args)
 
     for (i = 1; i < myargc - num_args; i++)
     {
-	if (!H_strcmp(check, myargv[i]))
-	    return i;
+        if (!strcmp(check, myargv[i])) {
+            if (num_args) {
+                dprintf("parm : [%s] arg : [%s]\n", check, myargv[i + 1]);
+            } else {
+                dprintf("parm : [%s] arg : ---\n", check);
+            }
+            return i;
+        }
     }
 
     return 0;
@@ -106,7 +112,7 @@ static void LoadResponseFile(int argv_index)
     // at the end of the response file, in which case a '\0' will be
     // needed.
 
-    file = Sys_Malloc(size + 1);
+    file = heap_malloc(size + 1);
 
     i = 0;
 
@@ -126,7 +132,7 @@ static void LoadResponseFile(int argv_index)
 
     // Create new arguments list array
 
-    newargv = Sys_Malloc(sizeof(char *) * MAXARGVS);
+    newargv = heap_malloc(sizeof(char *) * MAXARGVS);
     newargc = 0;
     memset(newargv, 0, sizeof(char *) * MAXARGVS);
 

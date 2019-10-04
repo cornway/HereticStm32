@@ -32,9 +32,11 @@
 #include "i_system.h"
 #include "m_argv.h"
 #include "m_misc.h"
-
 #include "z_zone.h"
-
+#include "d_main.h"
+#include <misc_utils.h>
+#include <dev_io.h>
+#include <bsp_sys.h>
 //
 // DEFAULTS
 //
@@ -42,7 +44,7 @@
 // Location where all configuration data is stored - 
 // default.cfg, savegames, etc.
 
-char *configdir;
+const char *configdir = "/";
 
 // Default filenames for configuration files.
 
@@ -87,7 +89,7 @@ typedef struct
 
 typedef struct
 {
-    default_t *defaults;
+    const default_t *defaults;
     int numdefaults;
     char *filename;
 } default_collection_t;
@@ -1560,18 +1562,16 @@ static default_collection_t extra_defaults =
 
 // Search a collection for a variable
 
-static default_t *SearchCollection(default_collection_t *collection, char *name)
+static const default_t *SearchCollection(default_collection_t *collection, char *name)
 {
     int i;
-
     for (i=0; i<collection->numdefaults; ++i) 
     {
-        if (!H_strcmp(name, collection->defaults[i].name))
+        if (!strcmp(name, collection->defaults[i].name))
         {
             return &collection->defaults[i];
         }
     }
-
     return NULL;
 }
 
@@ -1734,7 +1734,7 @@ static void SetVariable(default_t *def, char *value)
     switch (def->type)
     {
         case DEFAULT_STRING:
-            * (char **) def->location = strdup(value);
+            * (char **) def->location = d_strdup(value);
             break;
 
         case DEFAULT_INT:
@@ -1930,9 +1930,9 @@ void M_LoadDefaults (void)
 
 // Get a configuration file variable by its name
 
-static default_t *GetDefaultForName(char *name)
+static const default_t *GetDefaultForName(char *name)
 {
-    default_t *result;
+    const default_t *result;
 
     // Try the main list and the extras
 
@@ -1961,7 +1961,7 @@ void M_BindVariable(char *name, void *location)
 {
     default_t *variable;
 
-    variable = GetDefaultForName(name);
+    variable = (default_t *)GetDefaultForName(name);
 
     variable->location = location;
     variable->bound = true;
@@ -1972,7 +1972,7 @@ void M_BindVariable(char *name, void *location)
 
 boolean M_SetVariable(char *name, char *value)
 {
-    default_t *variable;
+    const default_t *variable;
 
     variable = GetDefaultForName(name);
 
@@ -1981,7 +1981,7 @@ boolean M_SetVariable(char *name, char *value)
         return false;
     }
 
-    SetVariable(variable, value);
+    SetVariable((default_t *)variable, value);
 
     return true;
 }
@@ -1990,7 +1990,7 @@ boolean M_SetVariable(char *name, char *value)
 
 int M_GetIntVariable(char *name)
 {
-    default_t *variable;
+    const default_t *variable;
 
     variable = GetDefaultForName(name);
 
@@ -2005,7 +2005,7 @@ int M_GetIntVariable(char *name)
 
 const char *M_GetStrVariable(char *name)
 {
-    default_t *variable;
+    const default_t *variable;
 
     variable = GetDefaultForName(name);
 
@@ -2020,7 +2020,7 @@ const char *M_GetStrVariable(char *name)
 
 float M_GetFloatVariable(char *name)
 {
-    default_t *variable;
+    const default_t *variable;
 
     variable = GetDefaultForName(name);
 
@@ -2062,7 +2062,7 @@ static char *GetDefaultConfigDir(void)
     else
 #endif /* #ifndef _WIN32 */
     {
-        return strdup(FILES_DIR"/");
+        return d_strdup(FILES_DIR"/");
     }
 }
 
@@ -2112,7 +2112,7 @@ char *M_GetSaveGameDir(char *iwadname)
 
     if (!H_strcmp(configdir, ""))
     {
-    	savegamedir = strdup("");
+    	savegamedir = d_strdup("");
     }
     else
     {

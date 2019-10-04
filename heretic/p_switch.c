@@ -21,6 +21,8 @@
 #include "s_sound.h"
 #include "v_video.h"
 
+#include <misc_utils.h>
+
 //==================================================================
 //
 //      CHANGE THE TEXTURE OF A WALL SWITCH TO ITS OPPOSITE

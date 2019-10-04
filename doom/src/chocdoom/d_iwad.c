@@ -31,6 +31,10 @@
 #include "m_misc.h"
 #include "w_wad.h"
 #include "z_zone.h"
+#include <misc_utils.h>
+#include <dev_io.h>
+#include <debug.h>
+#include <heap.h>
 
 static const iwad_t iwads[] =
 {
@@ -57,11 +61,10 @@ static const iwad_t iwads[] =
 
 #define MAX_IWAD_DIRS 128
 
-static char *iwad_dirs[MAX_IWAD_DIRS];
+static const char *iwad_dirs[MAX_IWAD_DIRS];
 static int num_iwad_dirs = 0;
-static const char pwads_path[] = "/doom/psx";
 
-static void AddIWADDir(char *dir)
+static void AddIWADDir(const char *dir)
 {
     if (num_iwad_dirs < MAX_IWAD_DIRS)
     {
@@ -214,12 +217,12 @@ static char *GetRegistryString(registry_value_t *reg_val)
     {
         // Allocate a buffer for the value and read the value
 
-        result = Sys_Malloc(len);
+        result = heap_malloc(len);
 
         if (RegQueryValueEx(key, reg_val->value, NULL, &valtype,
                             (unsigned char *) result, &len) != ERROR_SUCCESS)
         {
-            Sys_Free(result);
+            heap_free(result);
             result = NULL;
         }
     }
@@ -254,7 +257,7 @@ static void CheckUninstallStrings(void)
 
         if (unstr == NULL)
         {
-            Sys_Free(val);
+            heap_free(val);
         }
         else
         {
@@ -351,7 +354,7 @@ static void CheckSteamGUSPatches(void)
     }
 
     len = strlen(install_path) + strlen(STEAM_BFG_GUS_PATCHES) + 20;
-    patch_path = Sys_Malloc(len);
+    patch_path = heap_malloc(len);
     M_snprintf(patch_path, len, "%s\\%s\\ACBASS.PAT",
                install_path, STEAM_BFG_GUS_PATCHES);
 
@@ -363,8 +366,8 @@ static void CheckSteamGUSPatches(void)
         M_SetVariable("gus_patch_path", patch_path);
     }
 
-    Sys_Free(patch_path);
-    Sys_Free(install_path);
+    heap_free(patch_path);
+    heap_free(install_path);
 }
 
 // Default install directories for DOS Doom
@@ -396,7 +399,7 @@ static void CheckDOSDefaults(void)
 // Returns true if the specified path is a path to a file
 // of the specified name.
 
-static boolean DirIsFile(char *path, char *filename)
+static boolean DirIsFile(const char *path, const char *filename)
 {
     size_t path_len;
     size_t filename_len;
@@ -413,7 +416,7 @@ static boolean DirIsFile(char *path, char *filename)
 // file, returning the full path to the IWAD if found, or NULL
 // if not found.
 
-static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
+static char *CheckDirectoryHasIWAD(const char *dir, const char *iwadname)
 {
     char *filename; 
 
@@ -422,15 +425,15 @@ static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
 
     if (DirIsFile(dir, iwadname) && M_FileExists(dir))
     {
-        return strdup(dir);
+        return d_strdup(dir);
     }
 
     // Construct the full path to the IWAD if it is located in
     // this directory, and check if it exists.
 
-    if (!H_strcmp(dir, "."))
+    if (!strcmp(dir, "."))
     {
-        filename = strdup(iwadname);
+        filename = d_strdup(iwadname);
     }
     else
     {
@@ -442,7 +445,7 @@ static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
         return filename;
     }
 
-    Sys_Free(filename);
+    heap_free(filename);
 
     return NULL;
 }
@@ -450,7 +453,7 @@ static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
 // Search a directory to try to find an IWAD
 // Returns the location of the IWAD if found, otherwise NULL.
 
-static char *SearchDirectoryForIWAD(char *dir, int mask, GameMission_t *mission)
+static char *SearchDirectoryForIWAD(const char *dir, int mask, GameMission_t *mission)
 {
     char *filename;
     size_t i;
@@ -610,7 +613,7 @@ static void BuildIWADDirList(void)
 
     CheckSteamGUSPatches();
 
-#else
+#else /*_WIN32*/
 
     // Standard places where IWAD files are installed under Unix.
 
@@ -633,7 +636,6 @@ char *D_FindWADByName(char *name)
     int i;
     
     // Absolute path?
-
     if (M_FileExists(name))
     {
         return name;
@@ -642,7 +644,6 @@ char *D_FindWADByName(char *name)
     BuildIWADDirList();
 
     // Search through all IWAD paths for a file with the given name.
-
     for (i=0; i<num_iwad_dirs; ++i)
     {
         // As a special case, if this is in DOOMWADDIR or DOOMWADPATH,
@@ -651,7 +652,7 @@ char *D_FindWADByName(char *name)
 
         if (DirIsFile(iwad_dirs[i], name) && M_FileExists(iwad_dirs[i]))
         {
-            return strdup(iwad_dirs[i]);
+            return d_strdup(iwad_dirs[i]);
         }
 
         // Construct a string for the full path
@@ -664,17 +665,10 @@ char *D_FindWADByName(char *name)
         }
     }
 
-    Sys_Free(path);
+    heap_free(path);
     // File not found
 
     return NULL;
-}
-
-char *D_FindWADByExt(void (*handle)(void *))
-{
-    W_ForEach((char *)pwads_path, handle);
-
-    return "";
 }
 
 
@@ -766,7 +760,7 @@ const iwad_t **D_FindAllIWADs(int mask)
     char *filename;
     int i;
 
-    result = (const iwad_t **)Sys_Malloc(sizeof(iwad_t *) * (arrlen(iwads) + 1));
+    result = (const iwad_t **)heap_malloc(sizeof(iwad_t *) * (arrlen(iwads) + 1));
     result_len = 0;
 
     // Try to find all IWADs

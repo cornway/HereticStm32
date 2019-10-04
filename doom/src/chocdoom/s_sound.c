@@ -18,6 +18,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <audio_main.h>
+#include <misc_utils.h>
+#include <dev_io.h>
+#include <bsp_sys.h>
+#include <debug.h>
+
 #include "i_sound.h"
 #include "i_system.h"
 
@@ -37,8 +43,6 @@
 #include "p_local.h"
 #include "w_wad.h"
 #include "z_zone.h"
-#include "audio_main.h"
-#include "dev_io.h"
 
 // when to clip out sounds
 // Does not fit the large outdoor areas.
@@ -78,6 +82,7 @@ typedef struct
 } channel_t;
 
 static cd_track_t cd;
+static int cd_audio_present = 0;
 
 // The set of channels available
 

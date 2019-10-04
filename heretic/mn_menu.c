@@ -30,7 +30,9 @@
 #include "r_local.h"
 #include "s_sound.h"
 #include "v_video.h"
-#include "dev_io.h"
+#include <misc_utils.h>
+#include <dev_io.h>
+#include <heap.h>
 // Macros
 
 #define LEFT_DIR 0
@@ -649,7 +651,7 @@ void MN_LoadSlotText(void)
         int retval;
         filename = SV_Filename(i);
         d_open(filename, &fp, "r");
-        Sys_Free(filename);
+        heap_free(filename);
 
         if (!fp)
         {
@@ -828,7 +830,7 @@ static boolean SCLoadGame(int option)
 
     filename = SV_Filename(option);
     G_LoadGame(filename);
-    Sys_Free(filename);
+    heap_free(filename);
 
     MN_DeactivateMenu();
     BorderNeedRefresh = true;

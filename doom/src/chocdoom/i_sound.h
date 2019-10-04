@@ -121,7 +121,7 @@ typedef struct
 
     // Returns the lump index of the given sound.
 
-    int (*GetSfxLumpNum)(sfxinfo_t *sfxinfo);
+    int (*SfxOpenExt2Cache)(sfxinfo_t *sfxinfo);
 
     // Called periodically to update the subsystem.
 

@@ -25,7 +25,10 @@
 #include "p_local.h"
 #include "v_video.h"
 #include "deh_str.h"
+#include <misc_utils.h>
 #include "dev_io.h"
+#include <heap.h>
+#include <bsp_sys.h>
 
 static int SaveGameFP = -1;
 
@@ -47,7 +50,7 @@ char *SV_Filename(int slot)
     size_t filename_len;
 
     filename_len = strlen(savegamedir) + strlen(SAVEGAMENAME) + 8;
-    filename = Sys_Malloc(filename_len);
+    filename = heap_malloc(filename_len);
     M_snprintf(filename, filename_len,
                "%s" SAVEGAMENAME "%d.hsg", savegamedir, slot);
 
@@ -1952,7 +1955,7 @@ char *P_SaveGameFile(int slot)
     if (filename == NULL)
     {
         filename_size = strlen(savegamedir) + 32;
-        filename = Sys_Malloc(filename_size);
+        filename = heap_malloc(filename_size);
     }
 
     DEH_snprintf(basename, 32, SAVEGAMENAME "%d.dsg", slot);

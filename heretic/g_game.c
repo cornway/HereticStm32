@@ -32,6 +32,9 @@
 #include "s_sound.h"
 #include "v_video.h"
 
+#include <misc_utils.h>
+#include <heap.h>
+
 extern void SV_BeginSave (char *filename);
 extern void SV_EndSave (char *filename);
 // Macros
@@ -1472,7 +1475,7 @@ static char *savename = NULL;
 
 void G_LoadGame(char *name)
 {
-    savename = strdup(name);
+    savename = d_strdup(name);
     gameaction = ga_loadgame;
 }
 
@@ -1497,7 +1500,7 @@ void G_DoLoadGame(void)
 
     SV_OpenRead(savename);
 
-    Sys_Free(savename);
+    heap_free(savename);
     savename = NULL;
 
     // Skip the description field
@@ -2081,6 +2084,6 @@ void G_DoSaveGame(void)
     savedescription[0] = 0;
     P_SetMessage(&players[consoleplayer], DEH_String(TXT_GAMESAVED), true);
 
-    Sys_Free(filename);
+    heap_free(filename);
 }
 

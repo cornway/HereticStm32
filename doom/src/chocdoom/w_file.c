@@ -25,6 +25,8 @@
 
 #include "w_file.h"
 
+#include <misc_utils.h>
+
 extern wad_file_class_t stdc_wad_file;
 
 #ifdef _WIN32

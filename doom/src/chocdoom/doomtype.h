@@ -21,6 +21,9 @@
 #ifndef __DOOMTYPE__
 #define __DOOMTYPE__
 
+#include <limits.h>
+#include <inttypes.h>
+
 // #define macros to provide functions missing in Windows.
 // Outside Windows, we use strings.h for str[n]casecmp.
 
@@ -29,11 +32,6 @@
 
 #define strcasecmp stricmp
 #define strncasecmp strnicmp
-
-#else
-
-#include "string.h"
-#include "arch.h"
 
 #endif
 
@@ -63,28 +61,18 @@
 // pre-standardisation version).  inttypes.h is also in the C99 
 // standard and defined to include stdint.h, so include this. 
 
-#include <inttypes.h>
-
-#include <stdlib.h>
-#include <string.h>
-
-char *strdup (const char *str);
-
-#include <ctype.h>
-
-#ifndef HAVE_STRUPR
-char *strupr(char *str);
-#endif /*HAVE_STRUPR*/
+char *d_strdup (const char *str);
+char *d_strupr(char *str);
 
 #ifdef __cplusplus
 
 // Use builtin bool type with C++.
 
-#define boolean bool
+typedef bool boolean;
 
 #else
 
-#define boolean int
+typedef int boolean;
 #define true 1
 #define false 0
 #define undef -1
@@ -92,8 +80,6 @@ char *strupr(char *str);
 #endif
 
 typedef uint8_t byte;
-
-#include <limits.h>
 
 #ifdef _WIN32
 
@@ -108,8 +94,6 @@ typedef uint8_t byte;
 #define PATH_SEPARATOR ':'
 
 #endif
-
-#include "misc_utils.h"
 
 #endif
 

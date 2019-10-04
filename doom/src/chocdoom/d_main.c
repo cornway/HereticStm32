@@ -60,6 +60,13 @@
 
 #include "g_game.h"
 
+#include <debug.h>
+#include <misc_utils.h>
+#include <dev_io.h>
+#include <bsp_sys.h>
+#include <bsp_cmd.h>
+#include <audio_main.h>
+
 #include "hu_stuff.h"
 #include "wi_stuff.h"
 #include "st_stuff.h"
@@ -72,10 +79,8 @@
 #include "r_local.h"
 #include "statdump.h"
 
-
 #include "d_main.h"
 #include "w_merge.h"
-#include "input_main.h"
 
 //
 // D-DoomLoop()
@@ -125,8 +130,10 @@ boolean         bfgedition;
 // If true, the main game loop has started.
 boolean         main_loop_started = false;
 
+#ifndef STM32_SDK
 char		wadfile[1024];		// primary wad file
 char		mapdir[1024];           // directory of development maps
+#endif /*STM32_SDK*/
 
 int             show_endoom = 1;
 
@@ -182,10 +189,11 @@ void D_Display (void)
     boolean			done;
     boolean			wipe;
     boolean			redrawsbar;
-
-    if (nodrawers)
+    profiler_enter();
+    if (nodrawers) {
+        profiler_exit();
     	return;                    // for comparative timing / profiling
-		
+    }
     redrawsbar = false;
     
     // change the view size if needed
@@ -303,8 +311,9 @@ void D_Display (void)
     // normal update
     if (!wipe)
     {
-	I_FinishUpdate ();              // page flip or blit buffer
-	return;
+        I_FinishUpdate ();              // page flip or blit buffer
+        profiler_exit();
+        return;
     }
     
     // wipe update
@@ -318,6 +327,7 @@ void D_Display (void)
 	M_Drawer ();                            // menu is drawn even on top of wipes
 	I_FinishUpdate ();                      // page flip or blit buffer
     } while (!done);
+    profiler_exit();
 }
 
 //
@@ -398,10 +408,6 @@ boolean D_GrabMouseCallback(void)
 //
 //  D_DoomLoop
 //
-extern void audio_update (void);
-extern void fps_update (void);
-extern void frame_start (void);
-extern void frame_end (void);
 
 void D_DoomLoop (void)
 {
@@ -442,12 +448,10 @@ void D_DoomLoop (void)
     while (1)
     {
         // frame syncronous IO operations
-        input_tickle();
-        frame_start();
+        bsp_tickle();
         I_StartFrame ();
 
         TryRunTics (); // will run at least one tic
-        audio_update();
         S_UpdateSounds (players[consoleplayer].mo);// move positional sounds
 
         // Update display, next frame, with current state.
@@ -456,8 +460,6 @@ void D_DoomLoop (void)
             D_Display ();
         }
         DD_ProcGameAct();
-        frame_end();
-        fps_update();
     }
 }
 

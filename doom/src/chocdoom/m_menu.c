@@ -59,24 +59,22 @@
 #include "m_menu.h"
 #include "d_iwad.h"
 #include "p_saveg.h"
+#include <misc_utils.h>
+#include <dev_io.h>
+#include <bsp_sys.h>
 
-boolean game_saved_in_ram = false;
-boolean p_saveg_use_ram = false;
-char saveg_level_name[80 + 1];
-
-int musicVolume = 4;
-int sfxVolume = 8;
-
+extern int game_levels_total;
 extern patch_t*		hu_font[HU_FONTSIZE];
 extern boolean		message_dontfuckwithme;
 
 extern boolean		chat_on;		// in heads-up code
 
-extern boolean p_saveg_use_ram;
-
-
-static uint16_t level_selected = 1;
+int level_selected = 1;
 static char level_select_message[64] = {0};
+int musicVolume;
+int sfxVolume;
+
+extern int *joy_extrafreeze;
 //
 // defaulted values
 //
@@ -549,19 +547,12 @@ void M_DrawNewLevel (void)
 // M_ReadSaveStrings
 //  read the strings from the savegame files
 //
-#if LOAD_SAVE_USE_RAM
-void M_ReadSaveStrings(void)
-{
-    LoadMenu[0].status = 1;
-}
-#else
 void M_ReadSaveStrings(void)
 {
 #if ORIGCODE
     FILE   *handle;
 #else
     int handle;
-    UINT count;
 #endif
     int     i;
     char    name[256];
@@ -587,40 +578,28 @@ void M_ReadSaveStrings(void)
 		fread(&savegamestrings[i], 1, SAVESTRINGSIZE, handle);
 		fclose(handle);
 #else
-        count = d_read (handle, &savegamestrings[i], SAVESTRINGSIZE);
+        d_read (handle, &savegamestrings[i], SAVESTRINGSIZE);
         d_close (handle);
 #endif
 		LoadMenu[i].status = 1;
     }
 }
-#endif /*LOAD_SAVE_USE_RAM*/
 
 //
 // M_LoadGame & Cie.
 //
-extern boolean game_saved_in_ram;
-extern char saveg_level_name[80 + 1];
 void M_DrawLoad(void)
 {
     int             i;
+    profiler_enter();
     V_DrawPatchDirect(72, 28, 
                           (patch_t *)W_CacheLumpName(DEH_String("M_LOADG"), PU_CACHE));
-	if (p_saveg_use_ram) {
-        M_DrawSaveLoadBorder(LoadDef.x,LoadDef.y);
-        if (game_saved_in_ram) {
-            char buf[80 + 1];
-            M_snprintf(buf, sizeof(buf), "Map : %s", saveg_level_name);
-            M_WriteText(LoadDef.x,LoadDef.y, buf);
-        } else {
-    	    M_WriteText(LoadDef.x,LoadDef.y, "SLOT EMPTY");
-        }
-    } else {
-        for (i = 0;i < load_end; i++)
-        {
-    	M_DrawSaveLoadBorder(LoadDef.x,LoadDef.y+LINEHEIGHT*i);
-    	M_WriteText(LoadDef.x,LoadDef.y+LINEHEIGHT*i,savegamestrings[i]);
-        }
+    for (i = 0;i < load_end; i++)
+    {
+        M_DrawSaveLoadBorder(LoadDef.x,LoadDef.y+LINEHEIGHT*i);
+        M_WriteText(LoadDef.x,LoadDef.y+LINEHEIGHT*i,savegamestrings[i]);
     }
+    profiler_exit();
 }
 
 
@@ -630,20 +609,21 @@ void M_DrawLoad(void)
 //
 void M_DrawSaveLoadBorder(int x,int y)
 {
+#ifndef STM32_SDK
     int             i;
-	
+	profiler_enter();
     V_DrawPatchDirect(x - 8, y + 7,
                       (patch_t *)W_CacheLumpName(DEH_String("M_LSLEFT"), PU_CACHE));
-	
     for (i = 0;i < 24;i++)
     {
 	V_DrawPatchDirect(x, y + 7,
                           (patch_t *)W_CacheLumpName(DEH_String("M_LSCNTR"), PU_CACHE));
 	x += 8;
     }
-
     V_DrawPatchDirect(x, y + 7, 
                       (patch_t *)W_CacheLumpName(DEH_String("M_LSRGHT"), PU_CACHE));
+    profiler_exit();
+#endif
 }
 
 
@@ -683,22 +663,17 @@ void M_LoadGame (int choice)
 void M_DrawSave(void)
 {
     int             i;
-    if (p_saveg_use_ram) {
-        M_DrawSaveLoadBorder(LoadDef.x,LoadDef.y);
-        M_WriteText(LoadDef.x,LoadDef.y,"QUICK SAVE");
-    } else {
-        V_DrawPatchDirect(72, 28, (patch_t *)W_CacheLumpName(DEH_String("M_SAVEG"), PU_CACHE));
-        for (i = 0;i < load_end; i++)
-        {
-    	M_DrawSaveLoadBorder(LoadDef.x,LoadDef.y+LINEHEIGHT*i);
-    	M_WriteText(LoadDef.x,LoadDef.y+LINEHEIGHT*i,savegamestrings[i]);
-        }
-    	
-        if (saveStringEnter)
-        {
-    	i = M_StringWidth(savegamestrings[saveSlot]);
-    	M_WriteText(LoadDef.x + i,LoadDef.y+LINEHEIGHT*saveSlot,"_");
-        }
+    V_DrawPatchDirect(72, 28, (patch_t *)W_CacheLumpName(DEH_String("M_SAVEG"), PU_CACHE));
+    for (i = 0;i < load_end; i++)
+    {
+	M_DrawSaveLoadBorder(LoadDef.x,LoadDef.y+LINEHEIGHT*i);
+	M_WriteText(LoadDef.x,LoadDef.y+LINEHEIGHT*i,savegamestrings[i]);
+    }
+	
+    if (saveStringEnter)
+    {
+	i = M_StringWidth(savegamestrings[saveSlot]);
+	M_WriteText(LoadDef.x + i,LoadDef.y+LINEHEIGHT*saveSlot,"_");
     }
 }
 
@@ -725,10 +700,10 @@ void M_SaveSelect(int choice)
     
     saveSlot = choice;
     M_StringCopy(saveOldString,savegamestrings[choice], SAVESTRINGSIZE);
-    if (!H_strcmp(savegamestrings[choice], EMPTYSTRING))
+    if (!strcmp(savegamestrings[choice], EMPTYSTRING))
     {
-    	savegamestrings[choice][0] = 0x31 + choice;
-    	savegamestrings[choice][1] = 0;
+        savegamestrings[choice][1] = 0;
+        savegamestrings[choice][0] = choice + '1';
     }
     saveCharIndex = strlen(savegamestrings[choice]);
 }
@@ -748,9 +723,7 @@ void M_SaveGame (int choice)
 	return;
 	
     M_SetupNextMenu(&SaveDef);
-    if (!p_saveg_use_ram) {
-        M_ReadSaveStrings();
-    }
+    M_ReadSaveStrings();
 }
 
 
@@ -949,7 +922,7 @@ void M_SfxVol(int choice)
 	break;
     }
 	
-    S_SetSfxVolume(sfxVolume * 8);
+    S_SetSfxVolume(sfxVolume * 4);
 }
 
 void M_MusicVol(int choice)
@@ -1009,30 +982,17 @@ void M_NewGame(int choice)
         M_SetupNextMenu(&EpiDef);
 }
 
-static void D_ForeachFileHdlr(void *_filename)
-{
-    char *filename = (char *)_filename;
-    W_AddFile(filename);
-    M_snprintf(level_select_message, sizeof(level_select_message),
-        "New map[%d]: %s", level_selected, filename);
-    level_selected--;
-    filename[0] = 0;
-}
-
-extern int game_levels_total;
 static void M_SetLevel(int choice)
 {
     memset(level_select_message, 0, sizeof(level_select_message));
     if (choice == 0) {
 
         if (level_selected > 1)
-            level_selected--;        
+            level_selected--;
     } else if (choice == 1) {
 
         if (level_selected < game_levels_total) {
             level_selected++;
-        } else {
-            D_FindWADByExt(D_ForeachFileHdlr);
         }
     } else if (choice == key_menu_forward) {
 
@@ -1061,13 +1021,14 @@ void M_VerifyNightmare(int key)
 
 void M_ChooseSkill(int choice)
 {
+#ifndef STM32_SDK
     if (choice == nightmare)
     {
 	M_StartMessage(DEH_String(NIGHTMARE),M_VerifyNightmare,true);
 	return;
     }
-	
-    G_DeferedInitNew((skill_t)choice,epi+1,level_selected);
+#endif
+    G_DeferedInitNew((skill_t)choice,epi+1, level_selected);
     M_ClearMenus ();
 }
 
@@ -1470,7 +1431,7 @@ M_WriteText
     ch = string;
     cx = x;
     cy = y;
-	
+	profiler_enter();
     while(1)
     {
 	c = *ch++;
@@ -1496,6 +1457,7 @@ M_WriteText
 	V_DrawPatchDirect(cx, cy, hu_font[c]);
 	cx+=w;
     }
+    profiler_exit();
 }
 
 // These keys evaluate to a "null" key in Vanilla Doom that allows weird
@@ -2070,6 +2032,8 @@ void M_Drawer (void)
     char               *name;
     int			start;
 
+    profiler_enter();
+
     inhelpscreens = false;
     
     // Horiz. & Vertically center string and print it.
@@ -2109,7 +2073,8 @@ void M_Drawer (void)
 	    y += READ_LE_I16(hu_font[0]->height);
 	}
 
-	return;
+    profiler_exit();
+    return;
     }
 
     if (opldev)
@@ -2117,12 +2082,13 @@ void M_Drawer (void)
         M_DrawOPLDev();
     }
 
-    if (!menuactive)
-	return;
+    if (!menuactive) {
+        profiler_exit();
+        return;
+    }
 
     if (currentMenu->routine)
 	currentMenu->routine();         // call Draw routine
-    
     // DRAW MENU
     x = currentMenu->x;
     y = currentMenu->y;
@@ -2144,6 +2110,7 @@ void M_Drawer (void)
     V_DrawPatchDirect(x + SKULLXOFF, currentMenu->y - 5 + itemOn*LINEHEIGHT,
 		      (patch_t *)W_CacheLumpName(DEH_String(skullName[whichSkull]),
 				      PU_CACHE));
+    profiler_exit();
 }
 
 
@@ -2198,10 +2165,6 @@ void M_Init (void)
     messageString = NULL;
     messageLastMenuActive = menuactive;
     quickSaveSlot = -1;
-    if (p_saveg_use_ram) {
-        SaveDef.numitems = 1;
-        LoadDef.numitems = 1;
-    }
 
     // Here we could catch other version dependencies,
     //  like HELP1/2, and four episodes.

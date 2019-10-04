@@ -24,7 +24,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "doomtype.h"
+#include <misc_utils.h>
+#include <bsp_sys.h>
 
 #include "config.h"
 #include "d_iwad.h"
@@ -37,8 +38,6 @@
 #include "w_wad.h"
 
 extern GameMode_t gamemode;
-
-GameAltPackage_t game_alt_pkg = pkg_none;
 
 #define GAME_3D0_PKG_MARKER "V3DO"
 #define GAME_PSX_PKG_MARKER "VPSX"
@@ -158,18 +157,8 @@ W_CountMaps (lumpinfo_t *lump, boolean pwad)
     if (0 == strncmp(lump->name, "MAP", 3) &&
         isdigit(lump->name[3])) {
 
-        if (pwad && game_alt_pkg == pkg_3d0_doom) {
-            int map = atoi(lump->name + 3);
-            int ep = map / 8;
-
-            map--;
-            map = map % 8;
-            map++;
-            M_snprintf(lump->name, 8, "E%dM%d", ep + 1, map);
-        } else {
-            if (pwad && game_levels_total) {
-                W_ExtendMaps(lump);
-            }
+        if (pwad && game_levels_total) {
+            W_ExtendMaps(lump);
         }
         game_levels_total++;
     } else if (((lump->name[0] == 'E') && (lump->name[2] == 'M'))) {
@@ -180,17 +169,6 @@ W_CountMaps (lumpinfo_t *lump, boolean pwad)
 static void
 W_SetAltPkgType (lumpinfo_t *lump)
 {
-    GameAltPackage_t pkg = pkg_none;
-
-    if (game_alt_pkg != pkg_none) {
-        return;
-    }
-    if (!H_strcmp(GAME_3D0_PKG_MARKER, lump->name)) {
-        pkg = pkg_3d0_doom;
-    } else if (!H_strcmp(GAME_PSX_PKG_MARKER, lump->name)) {
-        pkg = pkg_psx_final;
-    }
-    game_alt_pkg = pkg;
 }
 
 wad_file_t *W_AddFile (char *filename)

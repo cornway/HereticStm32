@@ -19,11 +19,17 @@
 #include <stdio.h>
 #include "string.h"
 
+#include <misc_utils.h>
+#include <debug.h>
+#include <dev_io.h>
+#include <bsp_sys.h>
+
+#include <d_main.h>
 #include "m_misc.h"
 #include "w_file.h"
 #include "z_zone.h"
 #include "i_system.h"
-#include "dev_io.h"
+
 typedef struct
 {
     wad_file_t wad;
@@ -124,7 +130,7 @@ size_t W_StdC_Read(wad_file_t *wad, unsigned int offset,
 
     // Jump to the specified position in the file.
 
-	d_seek (stdc_wad->fstream, offset);
+	d_seek (stdc_wad->fstream, offset, DSEEK_SET);
 
     // Read into the buffer.
 
@@ -162,50 +168,13 @@ static wad_file_t *W_StdC_MMapFile(char *path)
 
 }
 
-typedef void (*w_handle_t)(void *);
-
-static w_handle_t w_handle = NULL;
-static char *w_path = NULL;
-
-int W_StdC_ForeachHandle (char *name, ftype_t type)
-{
-    char buf[128] = {0};
-    char path_to_file[128] = {0};
-    char *ext;
-
-    strncpy(buf, name, sizeof(buf));
-
-    ext = buf + strlen(buf) - sizeof(WAD_EXT) + 1;
-    strupr(ext);
-    if (0 == strncmp(ext, WAD_EXT, sizeof(WAD_EXT))) {
-        M_snprintf(path_to_file, sizeof(path_to_file),
-            "%s/%s", w_path, name);
-
-        w_handle(path_to_file);
-        if (path_to_file[0] == 0) {
-            return 1; /*successfully handled*/
-        }
-    }
-    return 0;
-}
-
-
-static void W_StdC_Foreach(char *path, w_handle_t handle)
-{
-    flist_t flist = {W_StdC_ForeachHandle, NULL};
-    w_path = path;
-    w_handle = handle;
-    d_dirlist(path, &flist);
-}
-
-
 wad_file_class_t stdc_wad_file = 
 {
     W_StdC_OpenFile,
     W_StdC_CloseFile,
     W_StdC_Read,
     W_StdC_MMapFile,
-    W_StdC_Foreach,
+    NULL,
 };
 
 
